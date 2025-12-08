@@ -9842,3 +9842,44 @@ Traceback (most recent call last):
   File "/Users/mattmurno/Desktop/Revature training files/etl_proj/venv/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
     raise KeyError(f"{not_found} not in index")
 KeyError: "['name'] not in index"
+2025-12-08 13:23:00,745 - src.read - INFO - Starting read() for type=csv, path=data/healthcare_dataset_dirty.csv
+2025-12-08 13:23:00,745 - src.read - INFO - Reading CSV file from data/healthcare_dataset_dirty.csv
+2025-12-08 13:23:01,282 - src.read - INFO - Successfully read CSV: 57166 rows x 15 columns
+2025-12-08 13:23:01,283 - src.clean - INFO - Starting clean(): input df has 57166 rows x 15 columns
+2025-12-08 13:23:01,877 - src.clean - INFO - Standardized string columns where present according to rules config.
+2025-12-08 13:23:01,908 - src.clean - WARNING - Column age: 285 value(s) could not be converted to numeric and were set to NaN
+2025-12-08 13:23:01,910 - src.clean - WARNING - Column age: 144 value(s) outside valid range (0–120); setting to NA
+2025-12-08 13:23:01,962 - src.clean - WARNING - Column room_number: 394 value(s) could not be converted to numeric and were set to NaN
+2025-12-08 13:23:02,062 - src.clean - INFO - Column billing_amount converted to numeric successfully.
+2025-12-08 13:23:02,063 - src.clean - INFO - Rounded column billing_amount to 2 decimal place(s).
+2025-12-08 13:23:02,095 - src.clean - WARNING - Column date_of_admission: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-08 13:23:02,112 - src.clean - WARNING - Column discharge_date: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-08 13:23:02,163 - src.clean - WARNING - Column test_results: 49003 value(s) not in allowed_values=['inconclusive', 'normal', 'abnormal']; action=set_na
+2025-12-08 13:23:02,164 - src.clean - INFO - clean() completed. Output df has 57166 rows x 15 columns
+2025-12-08 13:23:02,164 - src.transform - INFO - Starting transform(): input df has 57166 rows x 15 columns
+2025-12-08 13:23:02,463 - src.transform - INFO - Built people_df (no nulls): 46983 rows x 5 columns
+2025-12-08 13:23:02,477 - src.transform - INFO - Built hospitals_df (no nulls) (no nulls): 42404 rows x 2 columns
+2025-12-08 13:23:02,516 - src.transform - INFO - Built doctors_df (pre-hospital merge, no nulls) (no nulls): 51121 rows x 3 columns
+2025-12-08 13:23:02,585 - src.transform - INFO - Built conditions_df (no nulls): 18 rows x 2 columns
+2025-12-08 13:23:02,594 - src.transform - INFO - Built insurance_df (no nulls): 16 rows x 2 columns
+2025-12-08 13:23:02,599 - src.transform - INFO - Built test_results_df (no nulls): 3 rows x 2 columns
+2025-12-08 13:23:02,741 - src.transform - INFO - Built admission_types_df (no nulls): 9 rows x 2 columns
+2025-12-08 13:23:03,181 - src.transform - INFO - Finished merges; df is now 57166 rows x 27 columns
+2025-12-08 13:23:04,653 - src.transform - INFO - Built admissions_df: 2603 rows x 12 columns
+2025-12-08 13:23:04,653 - src.transform - INFO - After reject split: 2603 valid admissions, 54563 rejected rows
+2025-12-08 13:23:04,654 - src.transform - INFO - transform() completed successfully. Output tables: {'people': (46983, 5), 'doctors': (48454, 4), 'hospitals': (42404, 2), 'conditions': (18, 2), 'insurance': (16, 2), 'admission_types': (9, 2), 'test_results': (3, 2), 'admissions': (2603, 12), 'rejects': (54563, 16)}
+2025-12-08 13:23:04,659 - src.load - INFO - Starting load()
+2025-12-08 13:23:04,660 - src.load - INFO - Row counts - people=46983, hospitals=42404, doctors=48454, conditions=18, insurance=16, test_results=3, admission_types=9, admissions=2603, rejects=54563
+2025-12-08 13:23:04,660 - src.load - INFO - Connecting to database...
+2025-12-08 13:23:04,813 - src.load - INFO - Database connection established.
+2025-12-08 13:23:04,856 - src.load - INFO - Tables created/verified successfully.
+2025-12-08 13:23:04,857 - src.load - INFO - Truncating tables and resetting identities...
+2025-12-08 13:23:05,071 - src.load - INFO - Tables truncated.
+2025-12-08 13:23:05,071 - src.load - INFO - Starting insertion.
+2025-12-08 13:23:23,577 - src.load - ERROR - Error in load() while working with the database.
+Traceback (most recent call last):
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/src/load.py", line 303, in load
+    cur.execute(
+psycopg2.ProgrammingError: can't adapt type 'NAType'
+2025-12-08 13:23:23,671 - src.load - INFO - Transaction rolled back due to error.
+2025-12-08 13:23:23,671 - src.load - INFO - Database connection closed. End of load().
