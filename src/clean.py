@@ -1,5 +1,6 @@
 import pandas as pd
 from src.logger import get_logger
+from src.config import get_cleaning_rules
 
 logger = get_logger(__name__)
 
@@ -12,8 +13,10 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
     )
 
     df = df.copy()
+    rules = get_cleaning_rules() 
 
     try:
+        ###Converting Column Names to snake_case for Normalizaiton###
         original_cols = list(df.columns)
         df = df.rename(columns=lambda col: col.lower().strip().replace(" ", "_"))
         logger.debug(
@@ -22,10 +25,12 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
             list(df.columns),
         )
 
+        ###Striping White Space###
         str_cols = df.select_dtypes(include=["object", "string"]).columns
         logger.debug("Stripping whitespace from string columns: %s", list(str_cols))
         df[str_cols] = df[str_cols].apply(lambda s: s.str.strip())
 
+        ###Replace Empty String to NA###
         if len(str_cols) > 0:
             empty_before = (df[str_cols] == "").sum().sum()
             df[str_cols] = df[str_cols].replace("", pd.NA)
@@ -35,42 +40,29 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
                     empty_before,
                 )
 
-        if "name" in df.columns:
-            df["name"] = df["name"].str.title()
-        if "gender" in df.columns:
-            df["gender"] = df["gender"].str.upper()
-        if "blood_type" in df.columns:
-            df["blood_type"] = df["blood_type"].str.upper()
-        if "doctor" in df.columns:
-            df["doctor"] = df["doctor"].str.title()
-        if "hospital" in df.columns:
-            df["hospital"] = df["hospital"].str.title()
-        if "insurance_provider" in df.columns:
-            df["insurance_provider"] = df["insurance_provider"].str.title()
-        if "medical_condition" in df.columns:
-            df["medical_condition"] = df["medical_condition"].str.title()
-        if "test_results" in df.columns:
-            df["test_results"] = df["test_results"].str.lower()
+        ###Changing Case w/ rules.yml (UPPER, lower, Title)###
+        for col, rule in rules.items():
+            if col not in df.columns:
+                continue
 
-            valid_results = ["inconclusive", "normal", "abnormal"]
-            invalid_mask = df["test_results"].notna() & ~df["test_results"].isin(valid_results)
-            invalid_count = invalid_mask.sum()
-            if invalid_count > 0:
-                logger.warning(
-                    "test_results: %d value(s) not in %s; setting to NA",
-                    invalid_count,
-                    valid_results,
-                )
-                df.loc[invalid_mask, "test_results"] = pd.NA
-        if "admission_type" in df.columns:
-            df["admission_type"] = df["admission_type"].str.lower()
-        if "medication" in df.columns:
-            df["mediation"] = df["medication"].str.lower()
+            case = rule.get("case")
+            if case and pd.api.types.is_string_dtype(df[col]):
+                if case == "upper":
+                    df[col] = df[col].str.upper()
+                elif case == "lower":
+                    df[col] = df[col].str.lower()
+                elif case == "title":
+                    df[col] = df[col].str.title()
+                logger.debug("Applied case=%s normalization to column %s", case, col)
 
-        logger.info("Standardized string columns where present.")
+        logger.info("Standardized string columns where present according to rules config.")
 
-        for col in ["age", "billing_amount", "room_number"]:
-            if col in df.columns:
+        ###Checking for Valid Numeric Ranges w/ rules.yml (>0, 1,000 == 1000, ect.)###
+        for col, rule in rules.items():
+            if col not in df.columns:
+                continue
+
+            if rule.get("numeric"):
                 before_non_null = df[col].notna().sum()
                 df[col] = (
                     df[col]
@@ -90,50 +82,48 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
                 else:
                     logger.info("Column %s converted to numeric successfully.", col)
 
-        if "age" in df.columns:
-            logger.info(
-                "Age range before validation: min=%s, max=%s",
-                df["age"].min(),
-                df["age"].max(),
-            )
-            invalid_age_mask = df["age"].notna() & (
-                (df["age"] < 0) | (df["age"] > 120)
-            )
-            invalid_count = invalid_age_mask.sum()
-            if invalid_count > 0:
-                logger.warning(
-                    "Age: %d value(s) outside valid range (0–120); setting to NA",
-                    invalid_count,
-                )
-                df.loc[invalid_age_mask, "age"] = pd.NA
+                ###Checking if int is Within Range###
+                min_val = rule.get("min")
+                max_val = rule.get("max")
+                if min_val is not None or max_val is not None:
+                    invalid_mask = pd.Series(False, index=df.index)
+                    if min_val is not None:
+                        invalid_mask |= df[col] < min_val
+                    if max_val is not None:
+                        invalid_mask |= df[col] > max_val
+                    invalid_mask &= df[col].notna()
 
-        if "room_number" in df.columns:
-            logger.info(
-                "Room_number range before validation: min=%s, max=%s",
-                df["room_number"].min(),
-                df["room_number"].max(),
-            )
-            invalid_room_mask = df["room_number"].notna() & (
-                (df["room_number"] < 0) | (df["room_number"] > 100000)
-            )
-            invalid_rooms = invalid_room_mask.sum()
-            if invalid_rooms > 0:
-                logger.warning(
-                    "room_number: %d value(s) outside valid range (0–100000); setting to NA",
-                    invalid_rooms,
-                )
-                df.loc[invalid_room_mask, "room_number"] = pd.NA
+                    invalid_count = invalid_mask.sum()
+                    if invalid_count > 0:
+                        logger.warning(
+                            "Column %s: %d value(s) outside valid range (%s–%s); setting to NA",
+                            col,
+                            invalid_count,
+                            min_val,
+                            max_val,
+                        )
+                        df.loc[invalid_mask, col] = pd.NA
 
-        if "billing_amount" in df.columns:
-            df["billing_amount"] = df["billing_amount"].round(2)
-            logger.info("Rounded billing_amount to 2 decimal places.")
+                round_places = rule.get("round")
+                if round_places is not None and pd.api.types.is_numeric_dtype(df[col]):
+                    df[col] = df[col].round(round_places)
+                    logger.info(
+                        "Rounded column %s to %d decimal place(s).",
+                        col,
+                        round_places,
+                    )
 
-        for col in ["date_of_admission", "discharge_date"]:
-            if col in df.columns:
+        ###Checking If Dates can be processed as Datetime)###
+        for col, rule in rules.items():
+            if col not in df.columns:
+                continue
+
+            if rule.get("datetime"):
                 before_non_null = df[col].notna().sum()
                 df[col] = pd.to_datetime(df[col], errors="coerce")
                 after_non_null = df[col].notna().sum()
                 coerced = before_non_null - after_non_null
+
                 if coerced > 0:
                     logger.warning(
                         "Column %s: %d value(s) could not be parsed as datetime and were set to NaT",
@@ -142,6 +132,35 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
                     )
                 else:
                     logger.info("Column %s parsed as datetime successfully.", col)
+
+        ###Checking if Test_Results Contains Disallowed Values###
+        for col, rule in rules.items():
+            if col not in df.columns:
+                continue
+
+            allowed_values = rule.get("allowed_values")
+            if allowed_values:
+                invalid_mask = df[col].notna() & ~df[col].isin(allowed_values)
+                invalid_count = invalid_mask.sum()
+                if invalid_count > 0:
+                    action = rule.get("invalid_action", "set_na")
+                    logger.warning(
+                        "Column %s: %d value(s) not in allowed_values=%s; action=%s",
+                        col,
+                        invalid_count,
+                        allowed_values,
+                        action,
+                    )
+
+                    if action == "set_na":
+                        df.loc[invalid_mask, col] = pd.NA
+                    elif action == "drop_row":
+                        df = df.loc[~invalid_mask].copy()
+                    elif action == "raise":
+                        raise ValueError(
+                            f"{invalid_count} invalid value(s) in column {col} "
+                            f"not in {allowed_values}"
+                        )
 
         logger.info(
             "clean() completed. Output df has %d rows x %d columns",

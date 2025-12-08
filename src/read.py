@@ -4,7 +4,7 @@ from src.logger import get_logger
 
 logger = get_logger(__name__)
 
-
+###Reads CSV###
 def read_csv(filepath: str) -> pd.DataFrame:
     logger.info("Reading CSV file from %s", filepath)
     try:
@@ -15,7 +15,7 @@ def read_csv(filepath: str) -> pd.DataFrame:
         logger.exception("Failed to read CSV file from %s", filepath)
         raise
 
-
+###Reads JSON###
 def read_json(filepath: str) -> pd.DataFrame:
     logger.info("Reading JSON file from %s", filepath)
     try:
@@ -26,7 +26,7 @@ def read_json(filepath: str) -> pd.DataFrame:
         logger.exception("Failed to read JSON file from %s", filepath)
         raise
 
-
+###Reads Based on Sources in sources.yml###
 def read(source_cfg: dict) -> pd.DataFrame:
     source_type = source_cfg["type"]
     path = source_cfg["path"]

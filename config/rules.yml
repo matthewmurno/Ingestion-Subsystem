@@ -1,0 +1,43 @@
+rules:
+    columns:
+      name:
+        case: title
+      gender:
+        case: upper
+      blood_type:
+        case: upper
+      doctor:
+        case: title
+      hospital:
+        case: title
+      insurance_provider:
+        case: title
+      medical_condition:
+        case: title
+      admission_type:
+        case: lower
+      medication:
+        case: title
+      test_results:
+        case: lower
+        allowed_values: ["inconclusive", "normal", "abnormal"]
+        invalid_action: set_na
+
+      age:
+        numeric: true
+        min: 0
+        max: 120
+
+      room_number:
+        numeric: true
+        min: 0
+        max: 100000
+
+      billing_amount:
+        numeric: true
+        round: 2
+
+      date_of_admission:
+        datetime: true
+      discharge_date:
+        datetime: true

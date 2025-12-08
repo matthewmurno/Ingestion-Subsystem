@@ -7,6 +7,7 @@ from src.logger import get_logger
 
 logger = get_logger(__name__)
 
+###Helper for Building '''CREATE IF NOT EXISTS''' Table Functions###
 def build_create_table_sql(table_name, schema):
     columns_cfg = schema.get("columns", {})
     column_defs = []
@@ -67,6 +68,8 @@ def build_create_table_sql(table_name, schema):
     columns_sql = ",\n  ".join(all_defs)
     return f'CREATE TABLE IF NOT EXISTS "{table_name}" (\n  {columns_sql}\n);'
 
+
+###Checking If Tables Exist, Else Run build_create_table_sql(table_name, schema) to Create Them###
 def ensure_all_tables_exist(conn):
     schemas = CONFIG.get("schemas", {})
     if not schemas:
@@ -81,6 +84,7 @@ def ensure_all_tables_exist(conn):
     conn.commit()
 
 def load(loaded_data, db_url):
+    ###Getting DF from Loaded_Data Dictionary###
     people_df = loaded_data["people"]
     hospitals_df = loaded_data["hospitals"]
     doctors_df = loaded_data["doctors"]
@@ -107,15 +111,17 @@ def load(loaded_data, db_url):
     )
 
     try:
+        ###Opening Connection###
         logger.info("Connecting to database...")
         conn = psycopg2.connect(db_url)
         cur = conn.cursor()
         logger.info("Database connection established.")
 
+        ###Running Table Creation and Committing###
         ensure_all_tables_exist(conn)
 
-
         conn.commit()
+
         logger.info("Tables created/verified successfully.")
 
         logger.info("Truncating tables and resetting identities...")

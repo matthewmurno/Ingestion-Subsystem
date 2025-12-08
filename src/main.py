@@ -13,6 +13,7 @@ def main():
 
     raw_df = read(healthcare_cfg)
     cleaned_data = clean(raw_df)
+
     transformed_data = transform(cleaned_data)
 
     load(transformed_data, db_url=db_url)
