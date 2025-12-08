@@ -9883,3 +9883,392 @@ Traceback (most recent call last):
 psycopg2.ProgrammingError: can't adapt type 'NAType'
 2025-12-08 13:23:23,671 - src.load - INFO - Transaction rolled back due to error.
 2025-12-08 13:23:23,671 - src.load - INFO - Database connection closed. End of load().
+2025-12-08 13:26:17,683 - src.clean - INFO - Starting clean(): input df has 2 rows x 3 columns
+2025-12-08 13:26:17,740 - src.clean - INFO - Standardized string columns where present according to rules config.
+2025-12-08 13:26:17,740 - src.clean - INFO - clean() completed. Output df has 2 rows x 3 columns
+2025-12-08 13:26:17,765 - src.clean - INFO - Starting clean(): input df has 1 rows x 2 columns
+2025-12-08 13:26:17,770 - src.clean - INFO - Standardized string columns where present according to rules config.
+2025-12-08 13:26:17,770 - src.clean - INFO - clean() completed. Output df has 1 rows x 2 columns
+2025-12-08 13:26:17,809 - src.load - INFO - Starting load()
+2025-12-08 13:26:17,809 - src.load - INFO - Row counts - people=1, hospitals=1, doctors=1, conditions=1, insurance=1, test_results=1, admission_types=1, admissions=1, rejects=1
+2025-12-08 13:26:17,809 - src.load - INFO - Connecting to database...
+2025-12-08 13:26:17,810 - src.load - INFO - Database connection established.
+2025-12-08 13:26:17,816 - src.load - INFO - Tables created/verified successfully.
+2025-12-08 13:26:17,817 - src.load - INFO - Truncating tables and resetting identities...
+2025-12-08 13:26:17,819 - src.load - INFO - Tables truncated.
+2025-12-08 13:26:17,819 - src.load - INFO - Starting insertion.
+2025-12-08 13:26:17,850 - src.load - INFO - Load completed successfully.
+2025-12-08 13:26:17,851 - src.load - INFO - Database connection closed. End of load().
+2025-12-08 13:26:17,862 - src.load - INFO - Starting load()
+2025-12-08 13:26:17,862 - src.load - INFO - Row counts - people=3, hospitals=1, doctors=1, conditions=1, insurance=1, test_results=1, admission_types=1, admissions=1, rejects=1
+2025-12-08 13:26:17,863 - src.load - INFO - Connecting to database...
+2025-12-08 13:26:17,863 - src.load - INFO - Database connection established.
+2025-12-08 13:26:17,863 - src.load - INFO - Tables created/verified successfully.
+2025-12-08 13:26:17,863 - src.load - INFO - Truncating tables and resetting identities...
+2025-12-08 13:26:17,863 - src.load - INFO - Tables truncated.
+2025-12-08 13:26:17,863 - src.load - INFO - Starting insertion.
+2025-12-08 13:26:17,864 - src.load - WARNING - Invalid age 150 for person Too Old; setting age to NULL before insert
+2025-12-08 13:26:17,876 - src.load - INFO - Load completed successfully.
+2025-12-08 13:26:17,876 - src.load - INFO - Database connection closed. End of load().
+2025-12-08 13:26:17,887 - src.load - INFO - Starting load()
+2025-12-08 13:26:17,887 - src.load - INFO - Row counts - people=1, hospitals=1, doctors=1, conditions=1, insurance=1, test_results=1, admission_types=1, admissions=1, rejects=1
+2025-12-08 13:26:17,887 - src.load - INFO - Connecting to database...
+2025-12-08 13:26:17,888 - src.load - INFO - Database connection established.
+2025-12-08 13:26:17,888 - src.load - INFO - Tables created/verified successfully.
+2025-12-08 13:26:17,888 - src.load - INFO - Truncating tables and resetting identities...
+2025-12-08 13:26:17,888 - src.load - INFO - Tables truncated.
+2025-12-08 13:26:17,888 - src.load - INFO - Starting insertion.
+2025-12-08 13:26:17,890 - src.load - ERROR - Failed inserting people row: Pandas(person_id=1, name='Error Person', age=40, gender='M', blood_type='AB+')
+Traceback (most recent call last):
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/src/load.py", line 163, in load
+    cur.execute(
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/tests/test_load.py", line 16, in execute
+    raise psycopg2.Error("Simulated DB error")
+psycopg2.Error: Simulated DB error
+2025-12-08 13:26:17,905 - src.load - ERROR - Error in load() while working with the database.
+Traceback (most recent call last):
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/src/load.py", line 163, in load
+    cur.execute(
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/tests/test_load.py", line 16, in execute
+    raise psycopg2.Error("Simulated DB error")
+psycopg2.Error: Simulated DB error
+2025-12-08 13:26:17,906 - src.load - INFO - Transaction rolled back due to error.
+2025-12-08 13:26:17,906 - src.load - INFO - Database connection closed. End of load().
+2025-12-08 13:26:17,937 - src.read - INFO - Reading CSV file from /private/var/folders/45/mms0wwj51255z_fqrdsfrqzh0000gn/T/pytest-of-mattmurno/pytest-25/test_read_csv_success0/test.csv
+2025-12-08 13:26:17,953 - src.read - INFO - Successfully read CSV: 2 rows x 2 columns
+2025-12-08 13:26:17,961 - src.read - INFO - Reading JSON file from /private/var/folders/45/mms0wwj51255z_fqrdsfrqzh0000gn/T/pytest-of-mattmurno/pytest-25/test_read_json_success0/test.json
+2025-12-08 13:26:17,976 - src.read - INFO - Successfully read JSON: 2 rows x 2 columns
+2025-12-08 13:26:17,984 - src.read - INFO - Starting read() for type=csv, path=/private/var/folders/45/mms0wwj51255z_fqrdsfrqzh0000gn/T/pytest-of-mattmurno/pytest-25/test_read_dispatches_to_csv0/test.csv
+2025-12-08 13:26:17,984 - src.read - INFO - Reading CSV file from /private/var/folders/45/mms0wwj51255z_fqrdsfrqzh0000gn/T/pytest-of-mattmurno/pytest-25/test_read_dispatches_to_csv0/test.csv
+2025-12-08 13:26:17,986 - src.read - INFO - Successfully read CSV: 2 rows x 2 columns
+2025-12-08 13:26:17,993 - src.read - INFO - Starting read() for type=json, path=/private/var/folders/45/mms0wwj51255z_fqrdsfrqzh0000gn/T/pytest-of-mattmurno/pytest-25/test_read_dispatches_to_json0/test.json
+2025-12-08 13:26:17,994 - src.read - INFO - Reading JSON file from /private/var/folders/45/mms0wwj51255z_fqrdsfrqzh0000gn/T/pytest-of-mattmurno/pytest-25/test_read_dispatches_to_json0/test.json
+2025-12-08 13:26:17,999 - src.read - INFO - Successfully read JSON: 2 rows x 2 columns
+2025-12-08 13:26:18,003 - src.read - INFO - Reading CSV file from /private/var/folders/45/mms0wwj51255z_fqrdsfrqzh0000gn/T/pytest-of-mattmurno/pytest-25/test_read_csv_missing_file_rai0/does_not_exist.csv
+2025-12-08 13:26:18,004 - src.read - ERROR - Failed to read CSV file from /private/var/folders/45/mms0wwj51255z_fqrdsfrqzh0000gn/T/pytest-of-mattmurno/pytest-25/test_read_csv_missing_file_rai0/does_not_exist.csv
+Traceback (most recent call last):
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/src/read.py", line 11, in read_csv
+    df = pd.read_csv(filepath)
+         ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/venv/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 1026, in read_csv
+    return _read(filepath_or_buffer, kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/venv/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 620, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/venv/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 1620, in __init__
+    self._engine = self._make_engine(f, self.engine)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/venv/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 1880, in _make_engine
+    self.handles = get_handle(
+                   ^^^^^^^^^^^
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/venv/lib/python3.11/site-packages/pandas/io/common.py", line 873, in get_handle
+    handle = open(
+             ^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/private/var/folders/45/mms0wwj51255z_fqrdsfrqzh0000gn/T/pytest-of-mattmurno/pytest-25/test_read_csv_missing_file_rai0/does_not_exist.csv'
+2025-12-08 13:26:18,020 - src.read - INFO - Reading JSON file from /private/var/folders/45/mms0wwj51255z_fqrdsfrqzh0000gn/T/pytest-of-mattmurno/pytest-25/test_read_json_missing_file_ra0/does_not_exist.json
+2025-12-08 13:26:18,020 - src.read - ERROR - Failed to read JSON file from /private/var/folders/45/mms0wwj51255z_fqrdsfrqzh0000gn/T/pytest-of-mattmurno/pytest-25/test_read_json_missing_file_ra0/does_not_exist.json
+Traceback (most recent call last):
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/src/read.py", line 22, in read_json
+    df = pd.read_json(filepath)
+         ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/venv/lib/python3.11/site-packages/pandas/io/json/_json.py", line 791, in read_json
+    json_reader = JsonReader(
+                  ^^^^^^^^^^^
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/venv/lib/python3.11/site-packages/pandas/io/json/_json.py", line 904, in __init__
+    data = self._get_data_from_filepath(filepath_or_buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/venv/lib/python3.11/site-packages/pandas/io/json/_json.py", line 960, in _get_data_from_filepath
+    raise FileNotFoundError(f"File {filepath_or_buffer} does not exist")
+FileNotFoundError: File /private/var/folders/45/mms0wwj51255z_fqrdsfrqzh0000gn/T/pytest-of-mattmurno/pytest-25/test_read_json_missing_file_ra0/does_not_exist.json does not exist
+2025-12-08 13:26:18,033 - src.read - INFO - Starting read() for type=xml, path=some/path/file.xml
+2025-12-08 13:26:18,033 - src.read - ERROR - Unsupported source type in read(): xml
+2025-12-08 13:26:18,038 - src.transform - INFO - Starting transform(): input df has 2 rows x 15 columns
+2025-12-08 13:26:18,051 - src.transform - INFO - Built people_df (no nulls): 2 rows x 5 columns
+2025-12-08 13:26:18,055 - src.transform - INFO - Built hospitals_df (no nulls) (no nulls): 2 rows x 2 columns
+2025-12-08 13:26:18,061 - src.transform - INFO - Built doctors_df (pre-hospital merge, no nulls) (no nulls): 2 rows x 3 columns
+2025-12-08 13:26:18,077 - src.transform - INFO - Built conditions_df (no nulls): 2 rows x 2 columns
+2025-12-08 13:26:18,080 - src.transform - INFO - Built insurance_df (no nulls): 1 rows x 2 columns
+2025-12-08 13:26:18,083 - src.transform - INFO - Built test_results_df (no nulls): 2 rows x 2 columns
+2025-12-08 13:26:18,088 - src.transform - INFO - Built admission_types_df (no nulls): 2 rows x 2 columns
+2025-12-08 13:26:18,104 - src.transform - INFO - Finished merges; df is now 2 rows x 27 columns
+2025-12-08 13:26:18,113 - src.transform - INFO - Built admissions_df: 2 rows x 12 columns
+2025-12-08 13:26:18,113 - src.transform - INFO - After reject split: 2 valid admissions, 0 rejected rows
+2025-12-08 13:26:18,113 - src.transform - INFO - transform() completed successfully. Output tables: {'people': (2, 5), 'doctors': (2, 4), 'hospitals': (2, 2), 'conditions': (2, 2), 'insurance': (1, 2), 'admission_types': (2, 2), 'test_results': (2, 2), 'admissions': (2, 12), 'rejects': (0, 16)}
+2025-12-08 13:26:18,118 - src.transform - INFO - Starting transform(): input df has 3 rows x 15 columns
+2025-12-08 13:26:18,123 - src.transform - INFO - Built people_df (no nulls): 2 rows x 5 columns
+2025-12-08 13:26:18,127 - src.transform - INFO - Built hospitals_df (no nulls) (no nulls): 2 rows x 2 columns
+2025-12-08 13:26:18,130 - src.transform - INFO - Built doctors_df (pre-hospital merge, no nulls) (no nulls): 2 rows x 3 columns
+2025-12-08 13:26:18,138 - src.transform - INFO - Built conditions_df (no nulls): 2 rows x 2 columns
+2025-12-08 13:26:18,141 - src.transform - INFO - Built insurance_df (no nulls): 1 rows x 2 columns
+2025-12-08 13:26:18,144 - src.transform - INFO - Built test_results_df (no nulls): 3 rows x 2 columns
+2025-12-08 13:26:18,148 - src.transform - INFO - Built admission_types_df (no nulls): 2 rows x 2 columns
+2025-12-08 13:26:18,162 - src.transform - INFO - Finished merges; df is now 3 rows x 27 columns
+2025-12-08 13:26:18,167 - src.transform - INFO - Built admissions_df: 2 rows x 12 columns
+2025-12-08 13:26:18,167 - src.transform - INFO - After reject split: 2 valid admissions, 1 rejected rows
+2025-12-08 13:26:18,168 - src.transform - INFO - transform() completed successfully. Output tables: {'people': (2, 5), 'doctors': (2, 4), 'hospitals': (2, 2), 'conditions': (2, 2), 'insurance': (1, 2), 'admission_types': (2, 2), 'test_results': (2, 2), 'admissions': (2, 12), 'rejects': (1, 16)}
+2025-12-08 13:26:18,171 - src.transform - INFO - Starting transform(): input df has 1 rows x 14 columns
+2025-12-08 13:26:18,171 - src.transform - ERROR - transform() failed.
+Traceback (most recent call last):
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/src/transform.py", line 150, in transform
+    people_df = build_dimension_df(df, "people")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/src/transform.py", line 28, in build_dimension_df
+    source_df[all_cols]
+    ~~~~~~~~~^^^^^^^^^^
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/venv/lib/python3.11/site-packages/pandas/core/frame.py", line 4119, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/venv/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/venv/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['name'] not in index"
+2025-12-08 14:12:17,890 - src.read - INFO - Starting read() for type=csv, path=data/healthcare_dataset_dirty.csv
+2025-12-08 14:12:17,891 - src.read - INFO - Reading CSV file from data/healthcare_dataset_dirty.csv
+2025-12-08 14:12:18,254 - src.read - INFO - Successfully read CSV: 57166 rows x 15 columns
+2025-12-08 14:12:18,254 - src.clean - INFO - Starting clean(): input df has 57166 rows x 15 columns
+2025-12-08 14:12:18,668 - src.clean - INFO - Standardized string columns where present according to rules config.
+2025-12-08 14:12:18,702 - src.clean - WARNING - Column age: 285 value(s) could not be converted to numeric and were set to NaN
+2025-12-08 14:12:18,704 - src.clean - WARNING - Column age: 144 value(s) outside valid range (0–120); setting to NA
+2025-12-08 14:12:18,736 - src.clean - WARNING - Column room_number: 394 value(s) could not be converted to numeric and were set to NaN
+2025-12-08 14:12:18,842 - src.clean - INFO - Column billing_amount converted to numeric successfully.
+2025-12-08 14:12:18,843 - src.clean - INFO - Rounded column billing_amount to 2 decimal place(s).
+2025-12-08 14:12:18,874 - src.clean - WARNING - Column date_of_admission: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-08 14:12:18,890 - src.clean - WARNING - Column discharge_date: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-08 14:12:18,902 - src.clean - WARNING - Column test_results: 49003 value(s) not in allowed_values=['inconclusive', 'normal', 'abnormal']; action=set_na
+2025-12-08 14:12:18,905 - src.clean - INFO - clean() completed. Output df has 57166 rows x 15 columns
+2025-12-08 14:12:18,906 - src.transform - INFO - Starting transform(): input df has 57166 rows x 15 columns
+2025-12-08 14:12:19,327 - src.transform - INFO - Built people_df (no nulls): 46983 rows x 5 columns
+2025-12-08 14:12:19,342 - src.transform - INFO - Built hospitals_df (no nulls) (no nulls): 42404 rows x 2 columns
+2025-12-08 14:12:19,384 - src.transform - INFO - Built doctors_df (pre-hospital merge, no nulls) (no nulls): 51121 rows x 3 columns
+2025-12-08 14:12:19,453 - src.transform - INFO - Built conditions_df (no nulls): 18 rows x 2 columns
+2025-12-08 14:12:19,460 - src.transform - INFO - Built insurance_df (no nulls): 16 rows x 2 columns
+2025-12-08 14:12:19,465 - src.transform - INFO - Built test_results_df (no nulls): 3 rows x 2 columns
+2025-12-08 14:12:19,479 - src.transform - INFO - Built admission_types_df (no nulls): 9 rows x 2 columns
+2025-12-08 14:12:19,819 - src.transform - INFO - Finished merges; df is now 57166 rows x 27 columns
+2025-12-08 14:12:21,359 - src.transform - INFO - Built admissions_df: 2603 rows x 12 columns
+2025-12-08 14:12:21,359 - src.transform - INFO - After reject split: 2603 valid admissions, 54563 rejected rows
+2025-12-08 14:12:21,533 - src.transform - INFO - transform() completed successfully. Output tables: {'people': (46983, 5), 'doctors': (48454, 4), 'hospitals': (42404, 2), 'conditions': (18, 2), 'insurance': (16, 2), 'admission_types': (9, 2), 'test_results': (3, 2), 'admissions': (2603, 12), 'rejects': (54563, 16)}
+2025-12-08 14:12:21,538 - src.load - INFO - Starting load()
+2025-12-08 14:12:21,538 - src.load - INFO - Row counts - people=46983, hospitals=42404, doctors=48454, conditions=18, insurance=16, test_results=3, admission_types=9, admissions=2603, rejects=54563
+2025-12-08 14:12:21,538 - src.load - INFO - Connecting to database...
+2025-12-08 14:12:21,924 - src.load - INFO - Database connection established.
+2025-12-08 14:12:22,053 - src.load - INFO - Tables created/verified successfully.
+2025-12-08 14:12:22,054 - src.load - INFO - Truncating tables and resetting identities...
+2025-12-08 14:12:22,259 - src.load - INFO - Tables truncated.
+2025-12-08 14:12:22,259 - src.load - INFO - Starting insertion.
+2025-12-08 14:12:49,760 - src.load - INFO - Load completed successfully.
+2025-12-08 14:12:49,761 - src.load - INFO - Database connection closed. End of load().
+2025-12-08 14:30:45,798 - src.read - INFO - Starting read() for type=csv, path=data/healthcare_dataset_dirty.csv
+2025-12-08 14:30:45,799 - src.read - INFO - Reading CSV file from data/healthcare_dataset_dirty.csv
+2025-12-08 14:30:46,120 - src.read - INFO - Successfully read CSV: 57166 rows x 15 columns
+2025-12-08 14:30:46,121 - src.clean - INFO - Starting clean(): input df has 57166 rows x 15 columns
+2025-12-08 14:30:46,583 - src.clean - INFO - Standardized string columns where present according to rules config.
+2025-12-08 14:30:46,623 - src.clean - WARNING - Column age: 285 value(s) could not be converted to numeric and were set to NaN
+2025-12-08 14:30:46,625 - src.clean - WARNING - Column age: 144 value(s) outside valid range (0–120); setting to NA
+2025-12-08 14:30:46,654 - src.clean - WARNING - Column room_number: 394 value(s) could not be converted to numeric and were set to NaN
+2025-12-08 14:30:46,740 - src.clean - INFO - Column billing_amount converted to numeric successfully.
+2025-12-08 14:30:46,741 - src.clean - INFO - Rounded column billing_amount to 2 decimal place(s).
+2025-12-08 14:30:46,783 - src.clean - WARNING - Column date_of_admission: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-08 14:30:46,823 - src.clean - WARNING - Column discharge_date: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-08 14:30:46,863 - src.clean - WARNING - Column test_results: 49003 value(s) not in allowed_values=['inconclusive', 'normal', 'abnormal']; action=set_na
+2025-12-08 14:30:46,866 - src.clean - INFO - clean() completed. Output df has 57166 rows x 15 columns
+2025-12-08 14:30:46,866 - src.transform - INFO - Starting transform(): input df has 57166 rows x 15 columns
+2025-12-08 14:30:47,126 - src.transform - INFO - Built people_df (no nulls): 46983 rows x 5 columns
+2025-12-08 14:30:47,169 - src.transform - INFO - Built hospitals_df (no nulls) (no nulls): 42404 rows x 2 columns
+2025-12-08 14:30:47,391 - src.transform - INFO - Built doctors_df (pre-hospital merge, no nulls) (no nulls): 51121 rows x 3 columns
+2025-12-08 14:30:47,477 - src.transform - INFO - Built conditions_df (no nulls): 18 rows x 2 columns
+2025-12-08 14:30:47,493 - src.transform - INFO - Built insurance_df (no nulls): 16 rows x 2 columns
+2025-12-08 14:30:47,499 - src.transform - INFO - Built test_results_df (no nulls): 3 rows x 2 columns
+2025-12-08 14:30:47,516 - src.transform - INFO - Built admission_types_df (no nulls): 9 rows x 2 columns
+2025-12-08 14:30:47,842 - src.transform - INFO - Finished merges; df is now 57166 rows x 27 columns
+2025-12-08 14:30:49,163 - src.transform - INFO - Built admissions_df: 2603 rows x 12 columns
+2025-12-08 14:30:49,163 - src.transform - INFO - After reject split: 2603 valid admissions, 54563 rejected rows
+2025-12-08 14:30:49,354 - src.transform - INFO - transform() completed successfully. Output tables: {'people': (46983, 5), 'doctors': (48454, 4), 'hospitals': (42404, 2), 'conditions': (18, 2), 'insurance': (16, 2), 'admission_types': (9, 2), 'test_results': (3, 2), 'admissions': (2603, 12), 'rejects': (54563, 16)}
+2025-12-08 14:30:49,359 - src.load - INFO - Starting load()
+2025-12-08 14:30:49,359 - src.load - INFO - Row counts - people=46983, hospitals=42404, doctors=48454, conditions=18, insurance=16, test_results=3, admission_types=9, admissions=2603, rejects=54563
+2025-12-08 14:30:49,359 - src.load - INFO - Connecting to database...
+2025-12-08 14:30:49,507 - src.load - INFO - Database connection established.
+2025-12-08 14:30:49,554 - src.load - INFO - Tables created/verified successfully.
+2025-12-08 14:30:49,554 - src.load - INFO - Truncating tables and resetting identities...
+2025-12-08 14:30:50,424 - src.load - INFO - Tables truncated.
+2025-12-08 14:30:50,424 - src.load - INFO - Starting schema-driven insert/upsert phase...
+2025-12-08 14:31:28,319 - src.load - INFO - Load completed successfully.
+2025-12-08 14:31:28,319 - src.load - INFO - Load completed successfully.
+2025-12-08 14:31:28,319 - src.load - INFO - Database connection closed. End of load().
+2025-12-08 14:41:13,127 - src.clean - INFO - Starting clean(): input df has 2 rows x 3 columns
+2025-12-08 14:41:13,193 - src.clean - INFO - Standardized string columns where present according to rules config.
+2025-12-08 14:41:13,194 - src.clean - INFO - clean() completed. Output df has 2 rows x 3 columns
+2025-12-08 14:41:13,208 - src.clean - INFO - Starting clean(): input df has 1 rows x 2 columns
+2025-12-08 14:41:13,214 - src.clean - INFO - Standardized string columns where present according to rules config.
+2025-12-08 14:41:13,215 - src.clean - INFO - clean() completed. Output df has 1 rows x 2 columns
+2025-12-08 14:41:13,268 - src.load - INFO - Starting load()
+2025-12-08 14:41:13,269 - src.load - INFO - Row counts - people=1, hospitals=1, doctors=1, conditions=1, insurance=1, test_results=1, admission_types=1, admissions=1, rejects=1
+2025-12-08 14:41:13,269 - src.load - INFO - Connecting to database...
+2025-12-08 14:41:13,269 - src.load - INFO - Database connection established.
+2025-12-08 14:41:13,269 - src.load - INFO - Tables created/verified successfully.
+2025-12-08 14:41:13,269 - src.load - INFO - Truncating tables and resetting identities...
+2025-12-08 14:41:13,269 - src.load - INFO - Tables truncated.
+2025-12-08 14:41:13,270 - src.load - INFO - Starting schema-driven insert/upsert phase...
+2025-12-08 14:41:13,293 - src.load - INFO - Load completed successfully.
+2025-12-08 14:41:13,293 - src.load - INFO - Load completed successfully.
+2025-12-08 14:41:13,295 - src.load - INFO - Database connection closed. End of load().
+2025-12-08 14:41:13,306 - src.load - INFO - Starting load()
+2025-12-08 14:41:13,306 - src.load - INFO - Row counts - people=3, hospitals=1, doctors=1, conditions=1, insurance=1, test_results=1, admission_types=1, admissions=1, rejects=1
+2025-12-08 14:41:13,306 - src.load - INFO - Connecting to database...
+2025-12-08 14:41:13,307 - src.load - INFO - Database connection established.
+2025-12-08 14:41:13,307 - src.load - INFO - Tables created/verified successfully.
+2025-12-08 14:41:13,307 - src.load - INFO - Truncating tables and resetting identities...
+2025-12-08 14:41:13,307 - src.load - INFO - Tables truncated.
+2025-12-08 14:41:13,307 - src.load - INFO - Starting schema-driven insert/upsert phase...
+2025-12-08 14:41:13,310 - src.load - WARNING - Invalid age 150 for people; setting to NULL before insert
+2025-12-08 14:41:13,335 - src.load - INFO - Load completed successfully.
+2025-12-08 14:41:13,335 - src.load - INFO - Load completed successfully.
+2025-12-08 14:41:13,335 - src.load - INFO - Database connection closed. End of load().
+2025-12-08 14:41:13,349 - src.load - INFO - Starting load()
+2025-12-08 14:41:13,352 - src.load - INFO - Row counts - people=1, hospitals=1, doctors=1, conditions=1, insurance=1, test_results=1, admission_types=1, admissions=1, rejects=1
+2025-12-08 14:41:13,352 - src.load - INFO - Connecting to database...
+2025-12-08 14:41:13,352 - src.load - INFO - Database connection established.
+2025-12-08 14:41:13,352 - src.load - INFO - Tables created/verified successfully.
+2025-12-08 14:41:13,353 - src.load - INFO - Truncating tables and resetting identities...
+2025-12-08 14:41:13,353 - src.load - INFO - Tables truncated.
+2025-12-08 14:41:13,353 - src.load - INFO - Starting schema-driven insert/upsert phase...
+2025-12-08 14:41:13,355 - src.load - ERROR - Error in load() while working with the database.
+Traceback (most recent call last):
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/src/load.py", line 270, in load
+    insert_table(cur, table_name, df)
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/src/load.py", line 182, in insert_table
+    cur.execute(sql, values)
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/tests/test_load.py", line 16, in execute
+    raise psycopg2.Error("Simulated DB error")
+psycopg2.Error: Simulated DB error
+2025-12-08 14:41:13,365 - src.load - INFO - Transaction rolled back due to error.
+2025-12-08 14:41:13,366 - src.load - INFO - Database connection closed. End of load().
+2025-12-08 14:41:13,402 - src.read - INFO - Reading CSV file from /private/var/folders/45/mms0wwj51255z_fqrdsfrqzh0000gn/T/pytest-of-mattmurno/pytest-26/test_read_csv_success0/test.csv
+2025-12-08 14:41:13,405 - src.read - INFO - Successfully read CSV: 2 rows x 2 columns
+2025-12-08 14:41:13,417 - src.read - INFO - Reading JSON file from /private/var/folders/45/mms0wwj51255z_fqrdsfrqzh0000gn/T/pytest-of-mattmurno/pytest-26/test_read_json_success0/test.json
+2025-12-08 14:41:13,435 - src.read - INFO - Successfully read JSON: 2 rows x 2 columns
+2025-12-08 14:41:13,443 - src.read - INFO - Starting read() for type=csv, path=/private/var/folders/45/mms0wwj51255z_fqrdsfrqzh0000gn/T/pytest-of-mattmurno/pytest-26/test_read_dispatches_to_csv0/test.csv
+2025-12-08 14:41:13,443 - src.read - INFO - Reading CSV file from /private/var/folders/45/mms0wwj51255z_fqrdsfrqzh0000gn/T/pytest-of-mattmurno/pytest-26/test_read_dispatches_to_csv0/test.csv
+2025-12-08 14:41:13,445 - src.read - INFO - Successfully read CSV: 2 rows x 2 columns
+2025-12-08 14:41:13,451 - src.read - INFO - Starting read() for type=json, path=/private/var/folders/45/mms0wwj51255z_fqrdsfrqzh0000gn/T/pytest-of-mattmurno/pytest-26/test_read_dispatches_to_json0/test.json
+2025-12-08 14:41:13,451 - src.read - INFO - Reading JSON file from /private/var/folders/45/mms0wwj51255z_fqrdsfrqzh0000gn/T/pytest-of-mattmurno/pytest-26/test_read_dispatches_to_json0/test.json
+2025-12-08 14:41:13,455 - src.read - INFO - Successfully read JSON: 2 rows x 2 columns
+2025-12-08 14:41:13,461 - src.read - INFO - Reading CSV file from /private/var/folders/45/mms0wwj51255z_fqrdsfrqzh0000gn/T/pytest-of-mattmurno/pytest-26/test_read_csv_missing_file_rai0/does_not_exist.csv
+2025-12-08 14:41:13,462 - src.read - ERROR - Failed to read CSV file from /private/var/folders/45/mms0wwj51255z_fqrdsfrqzh0000gn/T/pytest-of-mattmurno/pytest-26/test_read_csv_missing_file_rai0/does_not_exist.csv
+Traceback (most recent call last):
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/src/read.py", line 11, in read_csv
+    df = pd.read_csv(filepath)
+         ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/venv/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 1026, in read_csv
+    return _read(filepath_or_buffer, kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/venv/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 620, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/venv/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 1620, in __init__
+    self._engine = self._make_engine(f, self.engine)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/venv/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 1880, in _make_engine
+    self.handles = get_handle(
+                   ^^^^^^^^^^^
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/venv/lib/python3.11/site-packages/pandas/io/common.py", line 873, in get_handle
+    handle = open(
+             ^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/private/var/folders/45/mms0wwj51255z_fqrdsfrqzh0000gn/T/pytest-of-mattmurno/pytest-26/test_read_csv_missing_file_rai0/does_not_exist.csv'
+2025-12-08 14:41:13,481 - src.read - INFO - Reading JSON file from /private/var/folders/45/mms0wwj51255z_fqrdsfrqzh0000gn/T/pytest-of-mattmurno/pytest-26/test_read_json_missing_file_ra0/does_not_exist.json
+2025-12-08 14:41:13,481 - src.read - ERROR - Failed to read JSON file from /private/var/folders/45/mms0wwj51255z_fqrdsfrqzh0000gn/T/pytest-of-mattmurno/pytest-26/test_read_json_missing_file_ra0/does_not_exist.json
+Traceback (most recent call last):
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/src/read.py", line 22, in read_json
+    df = pd.read_json(filepath)
+         ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/venv/lib/python3.11/site-packages/pandas/io/json/_json.py", line 791, in read_json
+    json_reader = JsonReader(
+                  ^^^^^^^^^^^
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/venv/lib/python3.11/site-packages/pandas/io/json/_json.py", line 904, in __init__
+    data = self._get_data_from_filepath(filepath_or_buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/venv/lib/python3.11/site-packages/pandas/io/json/_json.py", line 960, in _get_data_from_filepath
+    raise FileNotFoundError(f"File {filepath_or_buffer} does not exist")
+FileNotFoundError: File /private/var/folders/45/mms0wwj51255z_fqrdsfrqzh0000gn/T/pytest-of-mattmurno/pytest-26/test_read_json_missing_file_ra0/does_not_exist.json does not exist
+2025-12-08 14:41:13,486 - src.read - INFO - Starting read() for type=xml, path=some/path/file.xml
+2025-12-08 14:41:13,487 - src.read - ERROR - Unsupported source type in read(): xml
+2025-12-08 14:41:13,491 - src.transform - INFO - Starting transform(): input df has 2 rows x 15 columns
+2025-12-08 14:41:13,521 - src.transform - INFO - Built people_df (no nulls): 2 rows x 5 columns
+2025-12-08 14:41:13,527 - src.transform - INFO - Built hospitals_df (no nulls) (no nulls): 2 rows x 2 columns
+2025-12-08 14:41:13,536 - src.transform - INFO - Built doctors_df (pre-hospital merge, no nulls) (no nulls): 2 rows x 3 columns
+2025-12-08 14:41:13,560 - src.transform - INFO - Built conditions_df (no nulls): 2 rows x 2 columns
+2025-12-08 14:41:13,563 - src.transform - INFO - Built insurance_df (no nulls): 1 rows x 2 columns
+2025-12-08 14:41:13,567 - src.transform - INFO - Built test_results_df (no nulls): 2 rows x 2 columns
+2025-12-08 14:41:13,571 - src.transform - INFO - Built admission_types_df (no nulls): 2 rows x 2 columns
+2025-12-08 14:41:13,596 - src.transform - INFO - Finished merges; df is now 2 rows x 27 columns
+2025-12-08 14:41:13,607 - src.transform - INFO - Built admissions_df: 2 rows x 12 columns
+2025-12-08 14:41:13,607 - src.transform - INFO - After reject split: 2 valid admissions, 0 rejected rows
+2025-12-08 14:41:13,616 - src.transform - INFO - transform() completed successfully. Output tables: {'people': (2, 5), 'doctors': (2, 4), 'hospitals': (2, 2), 'conditions': (2, 2), 'insurance': (1, 2), 'admission_types': (2, 2), 'test_results': (2, 2), 'admissions': (2, 12), 'rejects': (0, 16)}
+2025-12-08 14:41:13,625 - src.transform - INFO - Starting transform(): input df has 3 rows x 15 columns
+2025-12-08 14:41:13,630 - src.transform - INFO - Built people_df (no nulls): 2 rows x 5 columns
+2025-12-08 14:41:13,634 - src.transform - INFO - Built hospitals_df (no nulls) (no nulls): 2 rows x 2 columns
+2025-12-08 14:41:13,637 - src.transform - INFO - Built doctors_df (pre-hospital merge, no nulls) (no nulls): 2 rows x 3 columns
+2025-12-08 14:41:13,643 - src.transform - INFO - Built conditions_df (no nulls): 2 rows x 2 columns
+2025-12-08 14:41:13,646 - src.transform - INFO - Built insurance_df (no nulls): 1 rows x 2 columns
+2025-12-08 14:41:13,661 - src.transform - INFO - Built test_results_df (no nulls): 3 rows x 2 columns
+2025-12-08 14:41:13,665 - src.transform - INFO - Built admission_types_df (no nulls): 2 rows x 2 columns
+2025-12-08 14:41:13,688 - src.transform - INFO - Finished merges; df is now 3 rows x 27 columns
+2025-12-08 14:41:13,700 - src.transform - INFO - Built admissions_df: 2 rows x 12 columns
+2025-12-08 14:41:13,700 - src.transform - INFO - After reject split: 2 valid admissions, 1 rejected rows
+2025-12-08 14:41:13,704 - src.transform - INFO - transform() completed successfully. Output tables: {'people': (2, 5), 'doctors': (2, 4), 'hospitals': (2, 2), 'conditions': (2, 2), 'insurance': (1, 2), 'admission_types': (2, 2), 'test_results': (2, 2), 'admissions': (2, 12), 'rejects': (1, 16)}
+2025-12-08 14:41:13,707 - src.transform - INFO - Starting transform(): input df has 1 rows x 14 columns
+2025-12-08 14:41:13,708 - src.transform - ERROR - transform() failed.
+Traceback (most recent call last):
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/src/transform.py", line 150, in transform
+    people_df = build_dimension_df(df, "people")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/src/transform.py", line 28, in build_dimension_df
+    source_df[all_cols]
+    ~~~~~~~~~^^^^^^^^^^
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/venv/lib/python3.11/site-packages/pandas/core/frame.py", line 4119, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/venv/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/Users/mattmurno/Desktop/Revature training files/etl_proj/venv/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['name'] not in index"
+2025-12-08 14:43:12,929 - src.read - INFO - Starting read() for type=csv, path=data/healthcare_dataset_dirty.csv
+2025-12-08 14:43:12,929 - src.read - INFO - Reading CSV file from data/healthcare_dataset_dirty.csv
+2025-12-08 14:43:13,192 - src.read - INFO - Successfully read CSV: 57166 rows x 15 columns
+2025-12-08 14:43:13,192 - src.clean - INFO - Starting clean(): input df has 57166 rows x 15 columns
+2025-12-08 14:43:13,583 - src.clean - INFO - Standardized string columns where present according to rules config.
+2025-12-08 14:43:13,645 - src.clean - WARNING - Column age: 285 value(s) could not be converted to numeric and were set to NaN
+2025-12-08 14:43:13,649 - src.clean - WARNING - Column age: 144 value(s) outside valid range (0–120); setting to NA
+2025-12-08 14:43:13,715 - src.clean - WARNING - Column room_number: 394 value(s) could not be converted to numeric and were set to NaN
+2025-12-08 14:43:13,814 - src.clean - INFO - Column billing_amount converted to numeric successfully.
+2025-12-08 14:43:13,814 - src.clean - INFO - Rounded column billing_amount to 2 decimal place(s).
+2025-12-08 14:43:13,843 - src.clean - WARNING - Column date_of_admission: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-08 14:43:13,860 - src.clean - WARNING - Column discharge_date: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-08 14:43:13,869 - src.clean - WARNING - Column test_results: 49003 value(s) not in allowed_values=['inconclusive', 'normal', 'abnormal']; action=set_na
+2025-12-08 14:43:13,870 - src.clean - INFO - clean() completed. Output df has 57166 rows x 15 columns
+2025-12-08 14:43:13,870 - src.transform - INFO - Starting transform(): input df has 57166 rows x 15 columns
+2025-12-08 14:43:14,140 - src.transform - INFO - Built people_df (no nulls): 46983 rows x 5 columns
+2025-12-08 14:43:14,153 - src.transform - INFO - Built hospitals_df (no nulls) (no nulls): 42404 rows x 2 columns
+2025-12-08 14:43:14,357 - src.transform - INFO - Built doctors_df (pre-hospital merge, no nulls) (no nulls): 51121 rows x 3 columns
+2025-12-08 14:43:14,467 - src.transform - INFO - Built conditions_df (no nulls): 18 rows x 2 columns
+2025-12-08 14:43:14,487 - src.transform - INFO - Built insurance_df (no nulls): 16 rows x 2 columns
+2025-12-08 14:43:14,497 - src.transform - INFO - Built test_results_df (no nulls): 3 rows x 2 columns
+2025-12-08 14:43:14,520 - src.transform - INFO - Built admission_types_df (no nulls): 9 rows x 2 columns
+2025-12-08 14:43:15,090 - src.transform - INFO - Finished merges; df is now 57166 rows x 27 columns
+2025-12-08 14:43:16,581 - src.transform - INFO - Built admissions_df: 2603 rows x 12 columns
+2025-12-08 14:43:16,582 - src.transform - INFO - After reject split: 2603 valid admissions, 54563 rejected rows
+2025-12-08 14:43:16,751 - src.transform - INFO - transform() completed successfully. Output tables: {'people': (46983, 5), 'doctors': (48454, 4), 'hospitals': (42404, 2), 'conditions': (18, 2), 'insurance': (16, 2), 'admission_types': (9, 2), 'test_results': (3, 2), 'admissions': (2603, 12), 'rejects': (54563, 16)}
+2025-12-08 14:43:16,756 - src.load - INFO - Starting load()
+2025-12-08 14:43:16,757 - src.load - INFO - Row counts - people=46983, hospitals=42404, doctors=48454, conditions=18, insurance=16, test_results=3, admission_types=9, admissions=2603, rejects=54563
+2025-12-08 14:43:16,757 - src.load - INFO - Connecting to database...
+2025-12-08 14:43:16,871 - src.load - INFO - Database connection established.
+2025-12-08 14:43:16,934 - src.load - INFO - Tables created/verified successfully.
+2025-12-08 14:43:16,935 - src.load - INFO - Truncating tables and resetting identities...
+2025-12-08 14:43:16,965 - src.load - INFO - Tables truncated.
+2025-12-08 14:43:16,966 - src.load - INFO - Starting schema-driven insert/upsert phase...
+2025-12-08 14:43:49,620 - src.load - INFO - Load completed successfully.
+2025-12-08 14:43:49,627 - src.load - INFO - Load completed successfully.
+2025-12-08 14:43:49,628 - src.load - INFO - Database connection closed. End of load().

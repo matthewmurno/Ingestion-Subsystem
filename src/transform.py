@@ -223,8 +223,10 @@ def transform(df: pd.DataFrame) -> dict[str, pd.DataFrame]:
             df.shape[1],
         )
 
-        ###Building Admissions and Results DF's###
+        ###Building Admissions and Results DF's and Handling NA Columns in Rejects###
         admissions_df, rejects_df = build_admissions_and_rejects(df)
+        rejects_df = rejects_df.astype("object").where(pd.notna(rejects_df), None)
+
 
         result = {
             "people": people_df,

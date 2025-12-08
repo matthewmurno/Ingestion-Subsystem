@@ -68,7 +68,6 @@ def build_create_table_sql(table_name, schema):
     columns_sql = ",\n  ".join(all_defs)
     return f'CREATE TABLE IF NOT EXISTS "{table_name}" (\n  {columns_sql}\n);'
 
-
 ###Checking If Tables Exist, Else Run build_create_table_sql(table_name, schema) to Create Them###
 def ensure_all_tables_exist(conn):
     schemas = CONFIG.get("schemas", {})
@@ -82,6 +81,105 @@ def ensure_all_tables_exist(conn):
             logger.debug("Ensuring table %s exists", table_name)
             cur.execute(create_sql)
     conn.commit()
+
+###Logic for Insertion Vs Upsertion, Functionality for Both Cases###
+def build_insert_or_upsert_sql(table_name: str, df: pd.DataFrame) -> tuple[str, list[str], list[str]]:
+    schemas_cfg = CONFIG.get("schemas", {})
+    if table_name not in schemas_cfg:
+        raise KeyError(f"No schema found for table {table_name!r}")
+
+    table_schema = schemas_cfg[table_name]
+    columns_cfg = table_schema.get("columns", {})
+
+    schema_cols = list(columns_cfg.keys())
+    df_cols = set(df.columns)
+
+    insert_columns = [c for c in schema_cols if c in df_cols]
+    if not insert_columns:
+        raise ValueError(f"No overlapping columns between df and schema for table {table_name!r}")
+
+    pk_cols = [name for name, cfg in columns_cfg.items() if cfg.get("primary_key")]
+    conflict_cols = [c for c in pk_cols if c in insert_columns]
+
+    col_list_sql = ", ".join(insert_columns)
+    placeholders = ", ".join(["%s"] * len(insert_columns))
+
+    if not conflict_cols:
+        sql = f"INSERT INTO {table_name} ({col_list_sql}) VALUES ({placeholders});"
+        return sql, insert_columns, []
+
+    non_pk_insert_cols = [c for c in insert_columns if c not in conflict_cols]
+    conflict_cols_sql = ", ".join(conflict_cols)
+
+    if non_pk_insert_cols:
+        set_clause = ", ".join(f"{c} = EXCLUDED.{c}" for c in non_pk_insert_cols)
+        sql = (
+            f"INSERT INTO {table_name} ({col_list_sql}) VALUES ({placeholders}) "
+            f"ON CONFLICT ({conflict_cols_sql}) DO UPDATE SET {set_clause};"
+        )
+    else:
+        sql = (
+            f"INSERT INTO {table_name} ({col_list_sql}) VALUES ({placeholders}) "
+            f"ON CONFLICT ({conflict_cols_sql}) DO NOTHING;"
+        )
+
+    return sql, insert_columns, conflict_cols
+
+###Loading Logic W/ Edge Cases for Age Verification and Rejects Loading###
+def insert_table(cur, table_name: str, df: pd.DataFrame) -> None:
+    """
+    Insert rows from df into the given table using schema-driven SQL.
+    Handles special cases for people.age and rejects NA handling.
+    """
+    if df is None or df.empty:
+        logger.info("DataFrame for table %s is empty; skipping insert.", table_name)
+        return
+
+    sql, insert_columns, conflict_cols = build_insert_or_upsert_sql(table_name, df)
+    logger.debug(
+        "Inserting into %s with columns %s (conflict on %s)",
+        table_name,
+        insert_columns,
+        conflict_cols or "none",
+    )
+
+    for row in df[insert_columns].itertuples(index=False, name=None):
+        values = []
+        for col_name, value in zip(insert_columns, row):
+            if table_name == "people" and col_name == "age":
+                if pd.isna(value):
+                    values.append(None)
+                else:
+                    try:
+                        age_int = int(value)
+                    except (TypeError, ValueError):
+                        logger.warning(
+                            "Non-numeric age %r for people; setting to NULL before insert",
+                            value,
+                        )
+                        age_int = None
+                    else:
+                        if age_int < 0 or age_int > 120:
+                            logger.warning(
+                                "Invalid age %s for people; setting to NULL before insert",
+                                age_int,
+                            )
+                            age_int = None
+                    values.append(age_int)
+
+            elif table_name == "rejects":
+                if pd.isna(value):
+                    values.append(None)
+                else:
+                    values.append(str(value))
+
+            else:
+                if pd.isna(value):
+                    values.append(None)
+                else:
+                    values.append(value)
+
+        cur.execute(sql, values)
 
 def load(loaded_data, db_url):
     ###Getting DF from Loaded_Data Dictionary###
@@ -124,6 +222,7 @@ def load(loaded_data, db_url):
 
         logger.info("Tables created/verified successfully.")
 
+        ###Truncating Rejects Table for New Rejects###
         logger.info("Truncating tables and resetting identities...")
         cur.execute("""
             TRUNCATE rejects,
@@ -140,207 +239,38 @@ def load(loaded_data, db_url):
         conn.commit()
         logger.info("Tables truncated.")
 
-        logger.info("Starting insertion.")
-        logger.debug("Inserting into people...")
-        for row in people_df.itertuples(index=False):
-            try:
-                age = row.age
+        ###Starting Table Insertion Logic###
+        table_to_df = {
+            "people": people_df,
+            "hospitals": hospitals_df,
+            "doctors": doctors_df,
+            "conditions": conditions_df,
+            "insurance": insurance_df,
+            "test_results": test_results_df,
+            "admission_types": admission_types_df,
+            "admission_data": admissions_df,
+            "rejects": rejects_df,
+        }
 
-                if pd.isna(age):
-                    age = None
-                else:
-                    age = int(age)
-                    if age < 0 or age > 120:
-                        logger.warning(
-                            "Invalid age %s for person %s; setting age to NULL before insert",
-                            age,
-                            row.name,
-                        )
-                        age = None
+        insertion_order = [
+            "people",
+            "hospitals",
+            "doctors",
+            "conditions",
+            "insurance",
+            "test_results",
+            "admission_types",
+            "admission_data",
+            "rejects",
+        ]
 
-                person_id = row.person_id
+        logger.info("Starting schema-driven insert/upsert phase...")
+        for table_name in insertion_order:
+            df = table_to_df[table_name]
+            insert_table(cur, table_name, df)
 
-                cur.execute(
-                    """
-                    INSERT INTO people (person_id, name, age, gender, blood_type)
-                    VALUES (%s, %s, %s, %s, %s)
-                    ON CONFLICT (person_id) DO UPDATE
-                    SET name = EXCLUDED.name,
-                        age = EXCLUDED.age,
-                        gender = EXCLUDED.gender,
-                        blood_type = EXCLUDED.blood_type;
-                    """,
-                    (person_id, row.name, age, row.gender, row.blood_type),
-                )
-
-            except psycopg2.Error:
-                logger.exception("Failed inserting people row: %s", row)
-                raise
-
-        logger.debug("Inserting into hospitals...")
-        for row in hospitals_df.itertuples(index=False):
-            cur.execute(
-                """
-                INSERT INTO hospitals (hospital_id, hospital_name)
-                VALUES (%s, %s)
-                ON CONFLICT (hospital_id) DO UPDATE
-                SET hospital_name = EXCLUDED.hospital_name;
-                """,
-                (row.hospital_id, row.hospital_name)
-            )
-
-        logger.debug("Inserting into doctors...")
-        for row in doctors_df.itertuples(index=False):
-            cur.execute(
-                """
-                INSERT INTO doctors (doctor_id, doctor_name, hospital_id)
-                VALUES (%s, %s, %s)
-                ON CONFLICT (doctor_id) DO UPDATE
-                SET doctor_name = EXCLUDED.doctor_name,
-                    hospital_id = EXCLUDED.hospital_id;
-                """,
-                (row.doctor_id, row.doctor_name, row.hospital_id)
-            )
-
-        logger.debug("Inserting into conditions...")
-        for row in conditions_df.itertuples(index=False):
-            cur.execute(
-                """
-                INSERT INTO conditions (condition_id, condition_name)
-                VALUES (%s, %s)
-                ON CONFLICT (condition_id) DO UPDATE
-                SET condition_name = EXCLUDED.condition_name;
-                """,
-                (row.condition_id, row.condition_name)
-            )
-
-        logger.debug("Inserting into insurance...")
-        for row in insurance_df.itertuples(index=False):
-            cur.execute(
-                """
-                INSERT INTO insurance (insurance_id, provider_name)
-                VALUES (%s, %s)
-                ON CONFLICT (insurance_id) DO UPDATE
-                SET provider_name = EXCLUDED.provider_name;
-                """,
-                (row.insurance_id, row.provider_name)
-            )
-
-        logger.debug("Inserting into test_results...")
-        for row in test_results_df.itertuples(index=False):
-            cur.execute(
-                """
-                INSERT INTO test_results (test_result_id, result_label)
-                VALUES (%s, %s)
-                ON CONFLICT (test_result_id) DO UPDATE
-                SET result_label = EXCLUDED.result_label;
-                """,
-                (row.test_result_id, row.result_label)
-            )
-
-        logger.debug("Inserting into admission_types...")
-        for row in admission_types_df.itertuples(index=False):
-            cur.execute(
-                """
-                INSERT INTO admission_types (admission_type_id, type_name)
-                VALUES (%s, %s)
-                ON CONFLICT (admission_type_id) DO UPDATE
-                SET type_name = EXCLUDED.type_name;
-                """,
-                (row.admission_type_id, row.type_name)
-            )
-
-        logger.debug("Inserting into admission_data...")
-        for row in admissions_df.itertuples(index=False):
-            cur.execute(
-                """
-                INSERT INTO admission_data (
-                    admission_id,
-                    person_id,
-                    doctor_id,
-                    condition_id,
-                    insurance_id,
-                    admission_type_id,
-                    test_result_id,
-                    date_of_admission,
-                    discharge_date,
-                    billing_amount,
-                    room_number,
-                    medication
-                )
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                ON CONFLICT (admission_id) DO UPDATE
-                SET person_id         = EXCLUDED.person_id,
-                    doctor_id         = EXCLUDED.doctor_id,
-                    condition_id      = EXCLUDED.condition_id,
-                    insurance_id      = EXCLUDED.insurance_id,
-                    admission_type_id = EXCLUDED.admission_type_id,
-                    test_result_id    = EXCLUDED.test_result_id,
-                    date_of_admission = EXCLUDED.date_of_admission,
-                    discharge_date    = EXCLUDED.discharge_date,
-                    billing_amount    = EXCLUDED.billing_amount,
-                    room_number       = EXCLUDED.room_number,
-                    medication        = EXCLUDED.medication;
-                """,
-                (
-                    row.admission_id,
-                    row.person_id,
-                    row.doctor_id,
-                    row.condition_id,
-                    row.insurance_id,
-                    row.admission_type_id,
-                    row.test_result_id,
-                    row.date_of_admission,
-                    row.discharge_date,
-                    row.billing_amount,
-                    row.room_number,
-                    row.medication,
-                )
-            )
-
-        logger.debug("Inserting into rejects...")
-        for row in rejects_df.itertuples(index=False):
-            cur.execute(
-                """
-                INSERT INTO rejects (
-                    name,
-                    age,
-                    gender,
-                    blood_type,
-                    medical_condition,
-                    date_of_admission,
-                    doctor,
-                    hospital,
-                    insurance_provider,
-                    billing_amount,
-                    room_number,
-                    admission_type,
-                    discharge_date,
-                    medication,
-                    test_results,
-                    missing_columns
-                )
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
-                """,
-                (
-                    row.name,
-                    None if pd.isna(row.age) else str(row.age),
-                    row.gender,
-                    row.blood_type,
-                    row.medical_condition,
-                    None if pd.isna(row.date_of_admission) else str(row.date_of_admission),
-                    row.doctor,
-                    row.hospital,
-                    row.insurance_provider,
-                    None if pd.isna(row.billing_amount) else str(row.billing_amount),
-                    None if pd.isna(row.room_number) else str(row.room_number),
-                    row.admission_type,
-                    None if pd.isna(row.discharge_date) else str(row.discharge_date),
-                    row.medication,
-                    row.test_results,
-                    row.missing_columns,
-                ),
-            )
+        conn.commit()
+        logger.info("Load completed successfully.")
 
         conn.commit()
         logger.info("Load completed successfully.")
