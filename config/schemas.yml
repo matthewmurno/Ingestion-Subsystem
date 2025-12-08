@@ -1,0 +1,186 @@
+schemas:
+  people:
+    columns:
+      person_id:
+        type: uuid
+        primary_key: true
+      name:
+        type: text
+        not_null: true
+        source: name
+      age:
+        type: int
+        not_null: true
+        source: age
+      gender:
+        type: text
+        not_null: true
+        source: gender
+      blood_type:
+        type: text
+        not_null: true
+        source: blood_type
+
+  hospitals:
+    columns:
+      hospital_id:
+        type: int
+        primary_key: true
+      hospital_name:
+        type: text
+        not_null: true
+        source: hospital
+
+  doctors:
+    columns:
+      doctor_id:
+        type: int
+        primary_key: true
+      doctor_name:
+        type: text
+        not_null: true
+        source: doctor
+      hospital_id:
+        type: int
+        not_null: true
+        references:
+          table: hospitals
+          column: hospital_id
+
+  conditions:
+    columns:
+      condition_id:
+        type: int
+        primary_key: true
+      condition_name:
+        type: text
+        not_null: true
+        source: medical_condition
+
+  insurance:
+    columns:
+      insurance_id:
+        type: int
+        primary_key: true
+      provider_name:
+        type: text
+        not_null: true
+        source: insurance_provider
+
+  test_results:
+    columns:
+      test_result_id:
+        type: int
+        primary_key: true
+      result_label:
+        type: text
+        not_null: true
+        check: "result_label IN ('inconclusive', 'normal', 'abnormal')"
+        source: test_results
+
+  admission_types:
+    columns:
+      admission_type_id:
+        type: int
+        primary_key: true
+      type_name:
+        type: text
+        not_null: true
+        source: admission_type
+
+  admission_data:
+    columns:
+      admission_id:
+        type: int
+        primary_key: true
+      person_id:
+        type: uuid
+        not_null: true
+        references:
+          table: people
+          column: person_id
+      doctor_id:
+        type: int
+        not_null: true
+        references:
+          table: doctors
+          column: doctor_id
+      condition_id:
+        type: int
+        not_null: true
+        references:
+          table: conditions
+          column: condition_id
+      insurance_id:
+        type: int
+        not_null: true
+        references:
+          table: insurance
+          column: insurance_id
+      admission_type_id:
+        type: int
+        not_null: true
+        references:
+          table: admission_types
+          column: admission_type_id
+      test_result_id:
+        type: int
+        not_null: true
+        references:
+          table: test_results
+          column: test_result_id
+      date_of_admission:
+        type: date
+        source: date_of_admission
+      discharge_date:
+        type: date
+        source: discharge_date
+      billing_amount:
+        type: numeric(12, 2)
+        source: billing_amount
+      room_number:
+        type: int
+        source: room_number
+      medication:
+        type: text
+        not_null: true
+        source: medication
+
+  rejects:
+    columns:
+      reject_id:
+        type: serial
+        primary_key: true
+      name:
+        type: text
+      age:
+        type: text
+      gender:
+        type: text
+      blood_type:
+        type: text
+      medical_condition:
+        type: text
+      date_of_admission:
+        type: text
+      doctor:
+        type: text
+      hospital:
+        type: text
+      insurance_provider:
+        type: text
+      billing_amount:
+        type: text
+      room_number:
+        type: text
+      admission_type:
+        type: text
+      discharge_date:
+        type: text
+      medication:
+        type: text
+      test_results:
+        type: text
+      missing_columns:
+        type: text
+        not_null: true

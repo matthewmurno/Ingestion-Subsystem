@@ -1,0 +1,24 @@
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Pycache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# VS Code
+.vscode/
+
+#macOS
+.DS_Store
+
+#pytest
+.coverage
+
+#file extensions
+*.zip
+
+data/healthcare_dataset.csv
+data/healthcare_dataset_dirty.csv
