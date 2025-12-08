@@ -21,4 +21,3 @@ __pycache__/
 *.zip
 
 data/healthcare_dataset.csv
-data/healthcare_dataset_dirty.csv
