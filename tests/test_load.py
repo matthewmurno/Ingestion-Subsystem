@@ -48,7 +48,6 @@ class FakeConn:
 
 
 def _make_loaded_data(people_df: pd.DataFrame, rejects_df: pd.DataFrame | None = None):
-    """Helper to build a minimal but complete loaded_data dict."""
     hospitals_df = pd.DataFrame(
         [{"hospital_id": 1, "hospital_name": "General Hospital"}]
     )

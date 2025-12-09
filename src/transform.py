@@ -210,11 +210,8 @@ def transform(df: pd.DataFrame) -> dict[str, pd.DataFrame]:
         )
 
         df = merge_dimension(df, conditions_df, "conditions")
-
         df = merge_dimension(df, insurance_df, "insurance")
-
         df = merge_dimension(df, test_results_df, "test_results")
-
         df = merge_dimension(df, admission_types_df, "admission_types")
 
         logger.info(

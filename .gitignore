@@ -24,3 +24,5 @@ data/healthcare_dataset.csv
 
 #logs
 logs/*.log
+
+.env
