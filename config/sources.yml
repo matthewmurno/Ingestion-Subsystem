@@ -3,10 +3,11 @@ defaults:
   db_url: ${DB_URL}
   batch_size: 5000
   on_conflict: upsert
+  load_mode: full_refresh ###either incremental or full_refresh###
 
 sources:
   - name: healthcare_csv
     type: csv
     path: data/healthcare_dataset_dirty.csv
-    
+
     

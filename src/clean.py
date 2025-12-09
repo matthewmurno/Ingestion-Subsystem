@@ -46,14 +46,16 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
                 continue
 
             case = rule.get("case")
-            if case and pd.api.types.is_string_dtype(df[col]):
-                if case == "upper":
-                    df[col] = df[col].str.upper()
-                elif case == "lower":
-                    df[col] = df[col].str.lower()
-                elif case == "title":
-                    df[col] = df[col].str.title()
+            df[col] = df[col].astype("string")
+            if case == "upper":
+                df[col] = df[col].str.upper()
+            elif case == "lower":
+                df[col] = df[col].str.lower()
+            elif case == "title":
+                df[col] = df[col].str.title()
+
                 logger.debug("Applied case=%s normalization to column %s", case, col)
+
 
         logger.info("Standardized string columns where present according to rules config.")
 

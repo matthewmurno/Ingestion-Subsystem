@@ -10272,3 +10272,591 @@ KeyError: "['name'] not in index"
 2025-12-08 14:43:49,620 - src.load - INFO - Load completed successfully.
 2025-12-08 14:43:49,627 - src.load - INFO - Load completed successfully.
 2025-12-08 14:43:49,628 - src.load - INFO - Database connection closed. End of load().
+2025-12-09 09:30:53,635 - src.read - INFO - Starting read() for type=csv, path=data/healthcare_dataset_dirty.csv
+2025-12-09 09:30:53,635 - src.read - INFO - Reading CSV file from data/healthcare_dataset_dirty.csv
+2025-12-09 09:30:53,895 - src.read - INFO - Successfully read CSV: 57166 rows x 15 columns
+2025-12-09 09:30:53,896 - src.clean - INFO - Starting clean(): input df has 57166 rows x 15 columns
+2025-12-09 09:30:54,777 - src.clean - INFO - Standardized string columns where present according to rules config.
+2025-12-09 09:30:54,856 - src.clean - WARNING - Column age: 285 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 09:30:54,857 - src.clean - WARNING - Column age: 144 value(s) outside valid range (0–120); setting to NA
+2025-12-09 09:30:54,948 - src.clean - WARNING - Column room_number: 394 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 09:30:55,335 - src.clean - INFO - Column billing_amount converted to numeric successfully.
+2025-12-09 09:30:55,338 - src.clean - INFO - Rounded column billing_amount to 2 decimal place(s).
+2025-12-09 09:30:55,446 - src.clean - WARNING - Column date_of_admission: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 09:30:55,471 - src.clean - WARNING - Column discharge_date: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 09:30:55,530 - src.clean - WARNING - Column test_results: 49003 value(s) not in allowed_values=['inconclusive', 'normal', 'abnormal']; action=set_na
+2025-12-09 09:30:55,532 - src.clean - INFO - clean() completed. Output df has 57166 rows x 15 columns
+2025-12-09 09:30:55,533 - src.transform - INFO - Starting transform(): input df has 57166 rows x 15 columns
+2025-12-09 09:30:56,098 - src.transform - INFO - Built people_df (no nulls): 46983 rows x 5 columns
+2025-12-09 09:30:56,130 - src.transform - INFO - Built hospitals_df (no nulls) (no nulls): 42404 rows x 2 columns
+2025-12-09 09:30:56,200 - src.transform - INFO - Built doctors_df (pre-hospital merge, no nulls) (no nulls): 51121 rows x 3 columns
+2025-12-09 09:30:56,281 - src.transform - INFO - Built conditions_df (no nulls): 18 rows x 2 columns
+2025-12-09 09:30:56,289 - src.transform - INFO - Built insurance_df (no nulls): 16 rows x 2 columns
+2025-12-09 09:30:56,295 - src.transform - INFO - Built test_results_df (no nulls): 3 rows x 2 columns
+2025-12-09 09:30:56,304 - src.transform - INFO - Built admission_types_df (no nulls): 9 rows x 2 columns
+2025-12-09 09:30:56,747 - src.transform - INFO - Finished merges; df is now 57166 rows x 27 columns
+2025-12-09 09:30:59,661 - src.transform - INFO - Built admissions_df: 2603 rows x 12 columns
+2025-12-09 09:30:59,661 - src.transform - INFO - After reject split: 2603 valid admissions, 54563 rejected rows
+2025-12-09 09:30:59,908 - src.transform - INFO - transform() completed successfully. Output tables: {'people': (46983, 5), 'doctors': (48454, 4), 'hospitals': (42404, 2), 'conditions': (18, 2), 'insurance': (16, 2), 'admission_types': (9, 2), 'test_results': (3, 2), 'admissions': (2603, 12), 'rejects': (54563, 16)}
+2025-12-09 09:30:59,917 - src.load - INFO - Starting load() with mode=incremental, batch_size=5000
+2025-12-09 09:30:59,918 - src.load - INFO - Starting load()
+2025-12-09 09:30:59,918 - src.load - INFO - Row counts - people=46983, hospitals=42404, doctors=48454, conditions=18, insurance=16, test_results=3, admission_types=9, admissions=2603, rejects=54563
+2025-12-09 09:30:59,918 - src.load - INFO - Connecting to database...
+2025-12-09 09:31:00,270 - src.load - INFO - Database connection established.
+2025-12-09 09:31:00,329 - src.load - INFO - Tables created/verified successfully.
+2025-12-09 09:31:00,334 - src.load - INFO - Incremental mode: skipping TRUNCATE; upserts will apply on top of existing data.
+2025-12-09 09:31:00,336 - src.load - INFO - Starting schema-driven insert/upsert phase...
+2025-12-09 09:31:57,180 - src.load - INFO - Load completed successfully.
+2025-12-09 09:31:57,181 - src.load - INFO - Load completed successfully.
+2025-12-09 09:31:57,181 - src.load - INFO - Database connection closed. End of load().
+2025-12-09 09:34:14,204 - src.read - INFO - Starting read() for type=csv, path=data/healthcare_dataset_dirty.csv
+2025-12-09 09:34:14,205 - src.read - INFO - Reading CSV file from data/healthcare_dataset_dirty.csv
+2025-12-09 09:34:14,530 - src.read - INFO - Successfully read CSV: 57166 rows x 15 columns
+2025-12-09 09:34:14,531 - src.clean - INFO - Starting clean(): input df has 57166 rows x 15 columns
+2025-12-09 09:34:14,931 - src.clean - INFO - Standardized string columns where present according to rules config.
+2025-12-09 09:34:14,967 - src.clean - WARNING - Column age: 285 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 09:34:14,968 - src.clean - WARNING - Column age: 144 value(s) outside valid range (0–120); setting to NA
+2025-12-09 09:34:15,000 - src.clean - WARNING - Column room_number: 394 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 09:34:15,106 - src.clean - INFO - Column billing_amount converted to numeric successfully.
+2025-12-09 09:34:15,107 - src.clean - INFO - Rounded column billing_amount to 2 decimal place(s).
+2025-12-09 09:34:15,173 - src.clean - WARNING - Column date_of_admission: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 09:34:15,211 - src.clean - WARNING - Column discharge_date: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 09:34:15,236 - src.clean - WARNING - Column test_results: 49003 value(s) not in allowed_values=['inconclusive', 'normal', 'abnormal']; action=set_na
+2025-12-09 09:34:15,243 - src.clean - INFO - clean() completed. Output df has 57166 rows x 15 columns
+2025-12-09 09:34:15,244 - src.transform - INFO - Starting transform(): input df has 57166 rows x 15 columns
+2025-12-09 09:34:15,828 - src.transform - INFO - Built people_df (no nulls): 46983 rows x 5 columns
+2025-12-09 09:34:15,842 - src.transform - INFO - Built hospitals_df (no nulls) (no nulls): 42404 rows x 2 columns
+2025-12-09 09:34:15,872 - src.transform - INFO - Built doctors_df (pre-hospital merge, no nulls) (no nulls): 51121 rows x 3 columns
+2025-12-09 09:34:15,943 - src.transform - INFO - Built conditions_df (no nulls): 18 rows x 2 columns
+2025-12-09 09:34:15,951 - src.transform - INFO - Built insurance_df (no nulls): 16 rows x 2 columns
+2025-12-09 09:34:15,962 - src.transform - INFO - Built test_results_df (no nulls): 3 rows x 2 columns
+2025-12-09 09:34:15,980 - src.transform - INFO - Built admission_types_df (no nulls): 9 rows x 2 columns
+2025-12-09 09:34:16,306 - src.transform - INFO - Finished merges; df is now 57166 rows x 27 columns
+2025-12-09 09:34:17,868 - src.transform - INFO - Built admissions_df: 2603 rows x 12 columns
+2025-12-09 09:34:17,868 - src.transform - INFO - After reject split: 2603 valid admissions, 54563 rejected rows
+2025-12-09 09:34:18,050 - src.transform - INFO - transform() completed successfully. Output tables: {'people': (46983, 5), 'doctors': (48454, 4), 'hospitals': (42404, 2), 'conditions': (18, 2), 'insurance': (16, 2), 'admission_types': (9, 2), 'test_results': (3, 2), 'admissions': (2603, 12), 'rejects': (54563, 16)}
+2025-12-09 09:34:18,054 - src.load - INFO - Starting load() with mode=incremental, batch_size=5000
+2025-12-09 09:34:18,054 - src.load - INFO - Starting load()
+2025-12-09 09:34:18,054 - src.load - INFO - Row counts - people=46983, hospitals=42404, doctors=48454, conditions=18, insurance=16, test_results=3, admission_types=9, admissions=2603, rejects=54563
+2025-12-09 09:34:18,054 - src.load - INFO - Connecting to database...
+2025-12-09 09:34:18,179 - src.load - INFO - Database connection established.
+2025-12-09 09:34:18,189 - src.load - INFO - Tables created/verified successfully.
+2025-12-09 09:34:18,189 - src.load - INFO - Incremental mode: skipping TRUNCATE; upserts will apply on top of existing data.
+2025-12-09 09:34:18,189 - src.load - INFO - Starting schema-driven insert/upsert phase...
+2025-12-09 09:35:00,224 - src.load - INFO - Load completed successfully.
+2025-12-09 09:35:00,224 - src.load - INFO - Load completed successfully.
+2025-12-09 09:35:00,225 - src.load - INFO - Database connection closed. End of load().
+2025-12-09 09:41:39,764 - src.read - INFO - Starting read() for type=csv, path=data/healthcare_dataset_dirty.csv
+2025-12-09 09:41:39,765 - src.read - INFO - Reading CSV file from data/healthcare_dataset_dirty.csv
+2025-12-09 09:41:40,010 - src.read - INFO - Successfully read CSV: 57166 rows x 15 columns
+2025-12-09 09:41:40,010 - src.clean - INFO - Starting clean(): input df has 57166 rows x 15 columns
+2025-12-09 09:41:40,328 - src.clean - INFO - Standardized string columns where present according to rules config.
+2025-12-09 09:41:40,367 - src.clean - WARNING - Column age: 285 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 09:41:40,369 - src.clean - WARNING - Column age: 144 value(s) outside valid range (0–120); setting to NA
+2025-12-09 09:41:40,412 - src.clean - WARNING - Column room_number: 394 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 09:41:40,508 - src.clean - INFO - Column billing_amount converted to numeric successfully.
+2025-12-09 09:41:40,509 - src.clean - INFO - Rounded column billing_amount to 2 decimal place(s).
+2025-12-09 09:41:40,541 - src.clean - WARNING - Column date_of_admission: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 09:41:40,692 - src.clean - WARNING - Column discharge_date: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 09:41:40,707 - src.clean - WARNING - Column test_results: 49003 value(s) not in allowed_values=['inconclusive', 'normal', 'abnormal']; action=set_na
+2025-12-09 09:41:40,710 - src.clean - INFO - clean() completed. Output df has 57166 rows x 15 columns
+2025-12-09 09:41:40,731 - src.transform - INFO - Starting transform(): input df has 57166 rows x 15 columns
+2025-12-09 09:41:41,002 - src.transform - INFO - Built people_df (no nulls): 46983 rows x 5 columns
+2025-12-09 09:41:41,016 - src.transform - INFO - Built hospitals_df (no nulls) (no nulls): 42404 rows x 2 columns
+2025-12-09 09:41:41,051 - src.transform - INFO - Built doctors_df (pre-hospital merge, no nulls) (no nulls): 51121 rows x 3 columns
+2025-12-09 09:41:41,095 - src.transform - INFO - Built conditions_df (no nulls): 18 rows x 2 columns
+2025-12-09 09:41:41,102 - src.transform - INFO - Built insurance_df (no nulls): 16 rows x 2 columns
+2025-12-09 09:41:41,106 - src.transform - INFO - Built test_results_df (no nulls): 3 rows x 2 columns
+2025-12-09 09:41:41,114 - src.transform - INFO - Built admission_types_df (no nulls): 9 rows x 2 columns
+2025-12-09 09:41:41,423 - src.transform - INFO - Finished merges; df is now 57166 rows x 27 columns
+2025-12-09 09:41:42,868 - src.transform - INFO - Built admissions_df: 2603 rows x 12 columns
+2025-12-09 09:41:42,869 - src.transform - INFO - After reject split: 2603 valid admissions, 54563 rejected rows
+2025-12-09 09:41:43,033 - src.transform - INFO - transform() completed successfully. Output tables: {'people': (46983, 5), 'doctors': (48454, 4), 'hospitals': (42404, 2), 'conditions': (18, 2), 'insurance': (16, 2), 'admission_types': (9, 2), 'test_results': (3, 2), 'admissions': (2603, 12), 'rejects': (54563, 16)}
+2025-12-09 09:41:43,037 - src.load - INFO - Starting load() with mode=incremental, batch_size=5000
+2025-12-09 09:41:43,037 - src.load - INFO - Starting load()
+2025-12-09 09:41:43,037 - src.load - INFO - Row counts - people=46983, hospitals=42404, doctors=48454, conditions=18, insurance=16, test_results=3, admission_types=9, admissions=2603, rejects=54563
+2025-12-09 09:41:43,037 - src.load - INFO - Connecting to database...
+2025-12-09 09:41:43,178 - src.load - INFO - Database connection established.
+2025-12-09 09:41:43,194 - src.load - INFO - Tables created/verified successfully.
+2025-12-09 09:41:43,194 - src.load - INFO - Incremental mode: skipping TRUNCATE; upserts will apply on top of existing data.
+2025-12-09 09:41:43,194 - src.load - INFO - Starting schema-driven insert/upsert phase...
+2025-12-09 09:41:43,194 - src.load - INFO - Loading table people in batches of 5000 rows (total 46983 rows)
+2025-12-09 09:41:49,198 - src.load - INFO - Loading table hospitals in batches of 5000 rows (total 42404 rows)
+2025-12-09 09:41:53,652 - src.load - INFO - Loading table doctors in batches of 5000 rows (total 48454 rows)
+2025-12-09 09:41:59,428 - src.load - INFO - Loading table rejects in batches of 5000 rows (total 54563 rows)
+2025-12-09 09:42:07,224 - src.load - INFO - Load completed successfully.
+2025-12-09 09:42:07,237 - src.load - INFO - Database connection closed. End of load().
+2025-12-09 09:50:45,367 - src.read - INFO - Starting read() for type=csv, path=data/healthcare_dataset_dirty.csv
+2025-12-09 09:50:45,367 - src.read - INFO - Reading CSV file from data/healthcare_dataset_dirty.csv
+2025-12-09 09:50:45,867 - src.read - INFO - Successfully read CSV: 57166 rows x 15 columns
+2025-12-09 09:50:45,867 - src.clean - INFO - Starting clean(): input df has 57166 rows x 15 columns
+2025-12-09 09:50:46,802 - src.clean - INFO - Standardized string columns where present according to rules config.
+2025-12-09 09:50:46,864 - src.clean - WARNING - Column age: 285 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 09:50:46,866 - src.clean - WARNING - Column age: 144 value(s) outside valid range (0–120); setting to NA
+2025-12-09 09:50:46,910 - src.clean - WARNING - Column room_number: 394 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 09:50:47,019 - src.clean - INFO - Column billing_amount converted to numeric successfully.
+2025-12-09 09:50:47,020 - src.clean - INFO - Rounded column billing_amount to 2 decimal place(s).
+2025-12-09 09:50:47,054 - src.clean - WARNING - Column date_of_admission: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 09:50:47,080 - src.clean - WARNING - Column discharge_date: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 09:50:47,087 - src.clean - WARNING - Column test_results: 49003 value(s) not in allowed_values=['inconclusive', 'normal', 'abnormal']; action=set_na
+2025-12-09 09:50:47,089 - src.clean - INFO - clean() completed. Output df has 57166 rows x 15 columns
+2025-12-09 09:50:47,089 - src.transform - INFO - Starting transform(): input df has 57166 rows x 15 columns
+2025-12-09 09:50:47,514 - src.transform - INFO - Built people_df (no nulls): 46983 rows x 5 columns
+2025-12-09 09:50:47,631 - src.transform - INFO - Built hospitals_df (no nulls) (no nulls): 42404 rows x 2 columns
+2025-12-09 09:50:47,707 - src.transform - INFO - Built doctors_df (pre-hospital merge, no nulls) (no nulls): 51121 rows x 3 columns
+2025-12-09 09:50:47,778 - src.transform - INFO - Built conditions_df (no nulls): 18 rows x 2 columns
+2025-12-09 09:50:47,784 - src.transform - INFO - Built insurance_df (no nulls): 16 rows x 2 columns
+2025-12-09 09:50:47,792 - src.transform - INFO - Built test_results_df (no nulls): 3 rows x 2 columns
+2025-12-09 09:50:47,803 - src.transform - INFO - Built admission_types_df (no nulls): 9 rows x 2 columns
+2025-12-09 09:50:48,431 - src.transform - INFO - Finished merges; df is now 57166 rows x 27 columns
+2025-12-09 09:50:52,053 - src.transform - INFO - Built admissions_df: 2603 rows x 12 columns
+2025-12-09 09:50:52,053 - src.transform - INFO - After reject split: 2603 valid admissions, 54563 rejected rows
+2025-12-09 09:50:52,297 - src.transform - INFO - transform() completed successfully. Output tables: {'people': (46983, 5), 'doctors': (48454, 4), 'hospitals': (42404, 2), 'conditions': (18, 2), 'insurance': (16, 2), 'admission_types': (9, 2), 'test_results': (3, 2), 'admissions': (2603, 12), 'rejects': (54563, 16)}
+2025-12-09 09:50:52,302 - src.load - INFO - Starting load() with mode=incremental, batch_size=5000
+2025-12-09 09:50:52,302 - src.load - INFO - Starting load()
+2025-12-09 09:50:52,302 - src.load - INFO - Row counts - people=46983, hospitals=42404, doctors=48454, conditions=18, insurance=16, test_results=3, admission_types=9, admissions=2603, rejects=54563
+2025-12-09 09:50:52,302 - src.load - INFO - Connecting to database...
+2025-12-09 09:50:52,583 - src.load - INFO - Database connection established.
+2025-12-09 09:50:52,617 - src.load - INFO - Tables created/verified successfully.
+2025-12-09 09:50:52,617 - src.load - INFO - Incremental mode: skipping TRUNCATE; upserts will apply on top of existing data.
+2025-12-09 09:50:52,617 - src.load - INFO - Starting schema-driven insert/upsert phase...
+2025-12-09 09:50:52,617 - src.load - INFO - Loading table people in batches of 5000 rows (total 46983 rows)
+2025-12-09 09:51:00,753 - src.load - INFO - Loading table hospitals in batches of 5000 rows (total 42404 rows)
+2025-12-09 09:51:08,407 - src.load - INFO - Loading table doctors in batches of 5000 rows (total 48454 rows)
+2025-12-09 09:51:17,971 - src.load - INFO - Loading table rejects in batches of 5000 rows (total 54563 rows)
+2025-12-09 09:51:29,502 - src.load - INFO - Load completed successfully.
+2025-12-09 09:51:29,502 - src.load - INFO - Database connection closed. End of load().
+2025-12-09 09:54:12,404 - src.read - INFO - Starting read() for type=csv, path=data/healthcare_dataset_dirty.csv
+2025-12-09 09:54:12,405 - src.read - INFO - Reading CSV file from data/healthcare_dataset_dirty.csv
+2025-12-09 09:54:12,695 - src.read - INFO - Successfully read CSV: 57166 rows x 15 columns
+2025-12-09 09:54:12,695 - src.clean - INFO - Starting clean(): input df has 57166 rows x 15 columns
+2025-12-09 09:54:13,069 - src.clean - INFO - Standardized string columns where present according to rules config.
+2025-12-09 09:54:13,132 - src.clean - WARNING - Column age: 285 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 09:54:13,135 - src.clean - WARNING - Column age: 144 value(s) outside valid range (0–120); setting to NA
+2025-12-09 09:54:13,189 - src.clean - WARNING - Column room_number: 394 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 09:54:13,289 - src.clean - INFO - Column billing_amount converted to numeric successfully.
+2025-12-09 09:54:13,290 - src.clean - INFO - Rounded column billing_amount to 2 decimal place(s).
+2025-12-09 09:54:13,317 - src.clean - WARNING - Column date_of_admission: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 09:54:13,334 - src.clean - WARNING - Column discharge_date: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 09:54:13,344 - src.clean - WARNING - Column test_results: 49003 value(s) not in allowed_values=['inconclusive', 'normal', 'abnormal']; action=set_na
+2025-12-09 09:54:13,345 - src.clean - INFO - clean() completed. Output df has 57166 rows x 15 columns
+2025-12-09 09:54:13,345 - src.transform - INFO - Starting transform(): input df has 57166 rows x 15 columns
+2025-12-09 09:54:13,749 - src.transform - INFO - Built people_df (no nulls): 46983 rows x 5 columns
+2025-12-09 09:54:13,832 - src.transform - INFO - Built hospitals_df (no nulls) (no nulls): 42404 rows x 2 columns
+2025-12-09 09:54:13,897 - src.transform - INFO - Built doctors_df (pre-hospital merge, no nulls) (no nulls): 51121 rows x 3 columns
+2025-12-09 09:54:14,076 - src.transform - INFO - Built conditions_df (no nulls): 18 rows x 2 columns
+2025-12-09 09:54:14,107 - src.transform - INFO - Built insurance_df (no nulls): 16 rows x 2 columns
+2025-12-09 09:54:14,154 - src.transform - INFO - Built test_results_df (no nulls): 3 rows x 2 columns
+2025-12-09 09:54:14,412 - src.transform - INFO - Built admission_types_df (no nulls): 9 rows x 2 columns
+2025-12-09 09:54:15,611 - src.transform - INFO - Finished merges; df is now 57166 rows x 27 columns
+2025-12-09 09:54:18,428 - src.transform - INFO - Built admissions_df: 2603 rows x 12 columns
+2025-12-09 09:54:18,428 - src.transform - INFO - After reject split: 2603 valid admissions, 54563 rejected rows
+2025-12-09 09:54:18,624 - src.transform - INFO - transform() completed successfully. Output tables: {'people': (46983, 5), 'doctors': (48454, 4), 'hospitals': (42404, 2), 'conditions': (18, 2), 'insurance': (16, 2), 'admission_types': (9, 2), 'test_results': (3, 2), 'admissions': (2603, 12), 'rejects': (54563, 16)}
+2025-12-09 09:54:18,629 - src.load - INFO - Starting load() with mode=incremental, batch_size=5000
+2025-12-09 09:54:18,630 - src.load - INFO - Starting load()
+2025-12-09 09:54:18,630 - src.load - INFO - Row counts - people=46983, hospitals=42404, doctors=48454, conditions=18, insurance=16, test_results=3, admission_types=9, admissions=2603, rejects=54563
+2025-12-09 09:54:18,631 - src.load - INFO - Connecting to database...
+2025-12-09 09:54:18,802 - src.load - INFO - Database connection established.
+2025-12-09 09:54:18,808 - src.load - INFO - Tables created/verified successfully.
+2025-12-09 09:54:18,808 - src.load - INFO - Incremental mode: skipping TRUNCATE; upserts will apply on top of existing data.
+2025-12-09 09:54:18,808 - src.load - INFO - Starting schema-driven insert/upsert phase...
+2025-12-09 09:54:18,808 - src.load - INFO - Loading table people in batches of 5000 rows (total 46983 rows)
+2025-12-09 09:54:28,499 - src.load - INFO - Loading table hospitals in batches of 5000 rows (total 42404 rows)
+2025-12-09 09:54:35,677 - src.load - INFO - Loading table doctors in batches of 5000 rows (total 48454 rows)
+2025-12-09 09:54:48,344 - src.load - INFO - Loading table rejects in batches of 5000 rows (total 54563 rows)
+2025-12-09 09:55:09,493 - src.load - INFO - Load completed successfully.
+2025-12-09 09:55:09,498 - src.load - INFO - Database connection closed. End of load().
+2025-12-09 09:56:34,591 - src.read - INFO - Starting read() for type=csv, path=data/healthcare_dataset_dirty.csv
+2025-12-09 09:56:34,597 - src.read - INFO - Reading CSV file from data/healthcare_dataset_dirty.csv
+2025-12-09 09:56:34,833 - src.read - INFO - Successfully read CSV: 57166 rows x 15 columns
+2025-12-09 09:56:34,833 - src.clean - INFO - Starting clean(): input df has 57166 rows x 15 columns
+2025-12-09 09:56:35,232 - src.clean - INFO - Standardized string columns where present according to rules config.
+2025-12-09 09:56:35,269 - src.clean - WARNING - Column age: 285 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 09:56:35,271 - src.clean - WARNING - Column age: 144 value(s) outside valid range (0–120); setting to NA
+2025-12-09 09:56:35,458 - src.clean - WARNING - Column room_number: 394 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 09:56:35,771 - src.clean - INFO - Column billing_amount converted to numeric successfully.
+2025-12-09 09:56:35,772 - src.clean - INFO - Rounded column billing_amount to 2 decimal place(s).
+2025-12-09 09:56:35,825 - src.clean - WARNING - Column date_of_admission: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 09:56:35,841 - src.clean - WARNING - Column discharge_date: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 09:56:35,913 - src.clean - WARNING - Column test_results: 49003 value(s) not in allowed_values=['inconclusive', 'normal', 'abnormal']; action=set_na
+2025-12-09 09:56:35,934 - src.clean - INFO - clean() completed. Output df has 57166 rows x 15 columns
+2025-12-09 09:56:35,941 - src.transform - INFO - Starting transform(): input df has 57166 rows x 15 columns
+2025-12-09 09:56:36,497 - src.transform - INFO - Built people_df (no nulls): 46983 rows x 5 columns
+2025-12-09 09:56:36,511 - src.transform - INFO - Built hospitals_df (no nulls) (no nulls): 42404 rows x 2 columns
+2025-12-09 09:56:36,605 - src.transform - INFO - Built doctors_df (pre-hospital merge, no nulls) (no nulls): 51121 rows x 3 columns
+2025-12-09 09:56:36,699 - src.transform - INFO - Built conditions_df (no nulls): 18 rows x 2 columns
+2025-12-09 09:56:36,710 - src.transform - INFO - Built insurance_df (no nulls): 16 rows x 2 columns
+2025-12-09 09:56:36,733 - src.transform - INFO - Built test_results_df (no nulls): 3 rows x 2 columns
+2025-12-09 09:56:36,755 - src.transform - INFO - Built admission_types_df (no nulls): 9 rows x 2 columns
+2025-12-09 09:56:37,098 - src.transform - INFO - Finished merges; df is now 57166 rows x 27 columns
+2025-12-09 09:56:38,614 - src.transform - INFO - Built admissions_df: 2603 rows x 12 columns
+2025-12-09 09:56:38,614 - src.transform - INFO - After reject split: 2603 valid admissions, 54563 rejected rows
+2025-12-09 09:56:38,787 - src.transform - INFO - transform() completed successfully. Output tables: {'people': (46983, 5), 'doctors': (48454, 4), 'hospitals': (42404, 2), 'conditions': (18, 2), 'insurance': (16, 2), 'admission_types': (9, 2), 'test_results': (3, 2), 'admissions': (2603, 12), 'rejects': (54563, 16)}
+2025-12-09 09:56:38,791 - src.load - INFO - Starting load() with mode=incremental, batch_size=5000
+2025-12-09 09:56:38,794 - src.load - INFO - Starting load()
+2025-12-09 09:56:38,795 - src.load - INFO - Row counts - people=46983, hospitals=42404, doctors=48454, conditions=18, insurance=16, test_results=3, admission_types=9, admissions=2603, rejects=54563
+2025-12-09 09:56:38,796 - src.load - INFO - Connecting to database...
+2025-12-09 09:56:38,931 - src.load - INFO - Database connection established.
+2025-12-09 09:56:38,936 - src.load - INFO - Tables created/verified successfully.
+2025-12-09 09:56:38,936 - src.load - INFO - Incremental mode: skipping TRUNCATE; upserts will apply on top of existing data.
+2025-12-09 09:56:38,936 - src.load - INFO - Starting schema-driven insert/upsert phase...
+2025-12-09 09:56:38,936 - src.load - INFO - Loading table people in batches of 5000 rows (total 46983 rows)
+2025-12-09 09:56:49,011 - src.load - INFO - Loading table hospitals in batches of 5000 rows (total 42404 rows)
+2025-12-09 09:57:00,571 - src.load - INFO - Loading table doctors in batches of 5000 rows (total 48454 rows)
+2025-12-09 09:57:12,375 - src.load - INFO - Loading table rejects in batches of 5000 rows (total 54563 rows)
+2025-12-09 09:57:29,683 - src.load - INFO - Load completed successfully.
+2025-12-09 09:57:29,684 - src.load - INFO - Database connection closed. End of load().
+2025-12-09 09:57:47,974 - src.read - INFO - Starting read() for type=csv, path=data/healthcare_dataset_dirty.csv
+2025-12-09 09:57:47,975 - src.read - INFO - Reading CSV file from data/healthcare_dataset_dirty.csv
+2025-12-09 09:57:48,328 - src.read - INFO - Successfully read CSV: 57166 rows x 15 columns
+2025-12-09 09:57:48,329 - src.clean - INFO - Starting clean(): input df has 57166 rows x 15 columns
+2025-12-09 09:57:48,655 - src.clean - INFO - Standardized string columns where present according to rules config.
+2025-12-09 09:57:48,729 - src.clean - WARNING - Column age: 285 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 09:57:48,734 - src.clean - WARNING - Column age: 144 value(s) outside valid range (0–120); setting to NA
+2025-12-09 09:57:48,772 - src.clean - WARNING - Column room_number: 394 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 09:57:48,869 - src.clean - INFO - Column billing_amount converted to numeric successfully.
+2025-12-09 09:57:48,870 - src.clean - INFO - Rounded column billing_amount to 2 decimal place(s).
+2025-12-09 09:57:48,888 - src.clean - WARNING - Column date_of_admission: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 09:57:48,905 - src.clean - WARNING - Column discharge_date: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 09:57:48,909 - src.clean - WARNING - Column test_results: 49003 value(s) not in allowed_values=['inconclusive', 'normal', 'abnormal']; action=set_na
+2025-12-09 09:57:48,910 - src.clean - INFO - clean() completed. Output df has 57166 rows x 15 columns
+2025-12-09 09:57:48,910 - src.transform - INFO - Starting transform(): input df has 57166 rows x 15 columns
+2025-12-09 09:57:49,163 - src.transform - INFO - Built people_df (no nulls): 46983 rows x 5 columns
+2025-12-09 09:57:49,177 - src.transform - INFO - Built hospitals_df (no nulls) (no nulls): 42404 rows x 2 columns
+2025-12-09 09:57:49,218 - src.transform - INFO - Built doctors_df (pre-hospital merge, no nulls) (no nulls): 51121 rows x 3 columns
+2025-12-09 09:57:49,457 - src.transform - INFO - Built conditions_df (no nulls): 18 rows x 2 columns
+2025-12-09 09:57:49,466 - src.transform - INFO - Built insurance_df (no nulls): 16 rows x 2 columns
+2025-12-09 09:57:49,471 - src.transform - INFO - Built test_results_df (no nulls): 3 rows x 2 columns
+2025-12-09 09:57:49,488 - src.transform - INFO - Built admission_types_df (no nulls): 9 rows x 2 columns
+2025-12-09 09:57:49,776 - src.transform - INFO - Finished merges; df is now 57166 rows x 27 columns
+2025-12-09 09:57:52,371 - src.transform - INFO - Built admissions_df: 2603 rows x 12 columns
+2025-12-09 09:57:52,371 - src.transform - INFO - After reject split: 2603 valid admissions, 54563 rejected rows
+2025-12-09 09:57:52,624 - src.transform - INFO - transform() completed successfully. Output tables: {'people': (46983, 5), 'doctors': (48454, 4), 'hospitals': (42404, 2), 'conditions': (18, 2), 'insurance': (16, 2), 'admission_types': (9, 2), 'test_results': (3, 2), 'admissions': (2603, 12), 'rejects': (54563, 16)}
+2025-12-09 09:57:52,629 - src.load - INFO - Starting load() with mode=incremental, batch_size=5000
+2025-12-09 09:57:52,629 - src.load - INFO - Starting load()
+2025-12-09 09:57:52,629 - src.load - INFO - Row counts - people=46983, hospitals=42404, doctors=48454, conditions=18, insurance=16, test_results=3, admission_types=9, admissions=2603, rejects=54563
+2025-12-09 09:57:52,629 - src.load - INFO - Connecting to database...
+2025-12-09 09:57:52,755 - src.load - INFO - Database connection established.
+2025-12-09 09:57:52,833 - src.load - INFO - Tables created/verified successfully.
+2025-12-09 09:57:52,838 - src.load - INFO - Incremental mode: skipping TRUNCATE; upserts will apply on top of existing data.
+2025-12-09 09:57:52,838 - src.load - INFO - Starting schema-driven insert/upsert phase...
+2025-12-09 09:57:52,838 - src.load - INFO - Loading table people in batches of 5000 rows (total 46983 rows)
+2025-12-09 09:58:01,234 - src.load - INFO - Loading table hospitals in batches of 5000 rows (total 42404 rows)
+2025-12-09 09:58:09,559 - src.load - INFO - Loading table doctors in batches of 5000 rows (total 48454 rows)
+2025-12-09 09:58:25,794 - src.load - INFO - Loading table rejects in batches of 5000 rows (total 54563 rows)
+2025-12-09 09:58:39,556 - src.load - INFO - Load completed successfully.
+2025-12-09 09:58:39,565 - src.load - INFO - Database connection closed. End of load().
+2025-12-09 09:59:05,685 - src.read - INFO - Starting read() for type=csv, path=data/healthcare_dataset_dirty.csv
+2025-12-09 09:59:05,685 - src.read - INFO - Reading CSV file from data/healthcare_dataset_dirty.csv
+2025-12-09 09:59:06,016 - src.read - INFO - Successfully read CSV: 57166 rows x 15 columns
+2025-12-09 09:59:06,017 - src.clean - INFO - Starting clean(): input df has 57166 rows x 15 columns
+2025-12-09 09:59:06,630 - src.clean - INFO - Standardized string columns where present according to rules config.
+2025-12-09 09:59:06,661 - src.clean - WARNING - Column age: 285 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 09:59:06,662 - src.clean - WARNING - Column age: 144 value(s) outside valid range (0–120); setting to NA
+2025-12-09 09:59:06,693 - src.clean - WARNING - Column room_number: 394 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 09:59:06,733 - src.clean - INFO - Column billing_amount converted to numeric successfully.
+2025-12-09 09:59:06,733 - src.clean - INFO - Rounded column billing_amount to 2 decimal place(s).
+2025-12-09 09:59:06,779 - src.clean - WARNING - Column date_of_admission: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 09:59:06,815 - src.clean - WARNING - Column discharge_date: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 09:59:06,844 - src.clean - INFO - clean() completed. Output df has 57166 rows x 15 columns
+2025-12-09 09:59:06,846 - src.transform - INFO - Starting transform(): input df has 57166 rows x 15 columns
+2025-12-09 09:59:07,144 - src.transform - INFO - Built people_df (no nulls): 46803 rows x 5 columns
+2025-12-09 09:59:07,160 - src.transform - INFO - Built hospitals_df (no nulls) (no nulls): 39007 rows x 2 columns
+2025-12-09 09:59:07,192 - src.transform - INFO - Built doctors_df (pre-hospital merge, no nulls) (no nulls): 48928 rows x 3 columns
+2025-12-09 09:59:07,238 - src.transform - INFO - Built conditions_df (no nulls): 6 rows x 2 columns
+2025-12-09 09:59:07,249 - src.transform - INFO - Built insurance_df (no nulls): 6 rows x 2 columns
+2025-12-09 09:59:07,301 - src.transform - INFO - Built test_results_df (no nulls): 3 rows x 2 columns
+2025-12-09 09:59:07,319 - src.transform - INFO - Built admission_types_df (no nulls): 3 rows x 2 columns
+2025-12-09 09:59:07,699 - src.transform - INFO - Finished merges; df is now 57166 rows x 27 columns
+2025-12-09 09:59:09,229 - src.transform - INFO - Built admissions_df: 25974 rows x 12 columns
+2025-12-09 09:59:09,229 - src.transform - INFO - After reject split: 25974 valid admissions, 31192 rejected rows
+2025-12-09 09:59:09,328 - src.transform - INFO - transform() completed successfully. Output tables: {'people': (46803, 5), 'doctors': (46283, 4), 'hospitals': (39007, 2), 'conditions': (6, 2), 'insurance': (6, 2), 'admission_types': (3, 2), 'test_results': (3, 2), 'admissions': (25974, 12), 'rejects': (31192, 16)}
+2025-12-09 09:59:09,338 - src.load - INFO - Starting load() with mode=incremental, batch_size=5000
+2025-12-09 09:59:09,339 - src.load - INFO - Starting load()
+2025-12-09 09:59:09,339 - src.load - INFO - Row counts - people=46803, hospitals=39007, doctors=46283, conditions=6, insurance=6, test_results=3, admission_types=3, admissions=25974, rejects=31192
+2025-12-09 09:59:09,340 - src.load - INFO - Connecting to database...
+2025-12-09 09:59:09,462 - src.load - INFO - Database connection established.
+2025-12-09 09:59:09,468 - src.load - INFO - Tables created/verified successfully.
+2025-12-09 09:59:09,468 - src.load - INFO - Incremental mode: skipping TRUNCATE; upserts will apply on top of existing data.
+2025-12-09 09:59:09,468 - src.load - INFO - Starting schema-driven insert/upsert phase...
+2025-12-09 09:59:09,468 - src.load - INFO - Loading table people in batches of 5000 rows (total 46803 rows)
+2025-12-09 09:59:15,838 - src.load - INFO - Loading table hospitals in batches of 5000 rows (total 39007 rows)
+2025-12-09 09:59:20,635 - src.load - INFO - Loading table doctors in batches of 5000 rows (total 46283 rows)
+2025-12-09 09:59:26,699 - src.load - INFO - Loading table admission_data in batches of 5000 rows (total 25974 rows)
+2025-12-09 09:59:35,423 - src.load - INFO - Loading table rejects in batches of 5000 rows (total 31192 rows)
+2025-12-09 09:59:39,851 - src.load - INFO - Load completed successfully.
+2025-12-09 09:59:39,851 - src.load - INFO - Database connection closed. End of load().
+2025-12-09 10:01:20,681 - src.read - INFO - Starting read() for type=csv, path=data/healthcare_dataset_dirty.csv
+2025-12-09 10:01:20,682 - src.read - INFO - Reading CSV file from data/healthcare_dataset_dirty.csv
+2025-12-09 10:01:20,983 - src.read - INFO - Successfully read CSV: 57166 rows x 15 columns
+2025-12-09 10:01:20,983 - src.clean - INFO - Starting clean(): input df has 57166 rows x 15 columns
+2025-12-09 10:01:21,603 - src.clean - INFO - Standardized string columns where present according to rules config.
+2025-12-09 10:01:21,635 - src.clean - WARNING - Column age: 285 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 10:01:21,636 - src.clean - WARNING - Column age: 144 value(s) outside valid range (0–120); setting to NA
+2025-12-09 10:01:21,670 - src.clean - WARNING - Column room_number: 394 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 10:01:21,775 - src.clean - INFO - Column billing_amount converted to numeric successfully.
+2025-12-09 10:01:21,776 - src.clean - INFO - Rounded column billing_amount to 2 decimal place(s).
+2025-12-09 10:01:21,824 - src.clean - WARNING - Column date_of_admission: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 10:01:21,842 - src.clean - WARNING - Column discharge_date: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 10:01:21,886 - src.clean - INFO - clean() completed. Output df has 57166 rows x 15 columns
+2025-12-09 10:01:21,887 - src.transform - INFO - Starting transform(): input df has 57166 rows x 15 columns
+2025-12-09 10:01:22,157 - src.transform - INFO - Built people_df (no nulls): 46803 rows x 5 columns
+2025-12-09 10:01:22,182 - src.transform - INFO - Built hospitals_df (no nulls) (no nulls): 39007 rows x 2 columns
+2025-12-09 10:01:22,223 - src.transform - INFO - Built doctors_df (pre-hospital merge, no nulls) (no nulls): 48928 rows x 3 columns
+2025-12-09 10:01:22,278 - src.transform - INFO - Built conditions_df (no nulls): 6 rows x 2 columns
+2025-12-09 10:01:22,288 - src.transform - INFO - Built insurance_df (no nulls): 6 rows x 2 columns
+2025-12-09 10:01:22,298 - src.transform - INFO - Built test_results_df (no nulls): 3 rows x 2 columns
+2025-12-09 10:01:22,309 - src.transform - INFO - Built admission_types_df (no nulls): 3 rows x 2 columns
+2025-12-09 10:01:22,578 - src.transform - INFO - Finished merges; df is now 57166 rows x 27 columns
+2025-12-09 10:01:24,102 - src.transform - INFO - Built admissions_df: 25974 rows x 12 columns
+2025-12-09 10:01:24,109 - src.transform - INFO - After reject split: 25974 valid admissions, 31192 rejected rows
+2025-12-09 10:01:24,232 - src.transform - INFO - transform() completed successfully. Output tables: {'people': (46803, 5), 'doctors': (46283, 4), 'hospitals': (39007, 2), 'conditions': (6, 2), 'insurance': (6, 2), 'admission_types': (3, 2), 'test_results': (3, 2), 'admissions': (25974, 12), 'rejects': (31192, 16)}
+2025-12-09 10:01:24,238 - src.load - INFO - Starting load() with mode=full-load, batch_size=5000
+2025-12-09 10:01:24,238 - src.load - INFO - Starting load()
+2025-12-09 10:01:24,238 - src.load - INFO - Row counts - people=46803, hospitals=39007, doctors=46283, conditions=6, insurance=6, test_results=3, admission_types=3, admissions=25974, rejects=31192
+2025-12-09 10:01:24,238 - src.load - INFO - Connecting to database...
+2025-12-09 10:01:24,440 - src.load - INFO - Database connection established.
+2025-12-09 10:01:24,447 - src.load - INFO - Tables created/verified successfully.
+2025-12-09 10:01:24,447 - src.load - INFO - Database connection closed. End of load().
+2025-12-09 10:01:36,916 - src.read - INFO - Starting read() for type=csv, path=data/healthcare_dataset_dirty.csv
+2025-12-09 10:01:36,916 - src.read - INFO - Reading CSV file from data/healthcare_dataset_dirty.csv
+2025-12-09 10:01:37,168 - src.read - INFO - Successfully read CSV: 57166 rows x 15 columns
+2025-12-09 10:01:37,168 - src.clean - INFO - Starting clean(): input df has 57166 rows x 15 columns
+2025-12-09 10:01:37,665 - src.clean - INFO - Standardized string columns where present according to rules config.
+2025-12-09 10:01:37,703 - src.clean - WARNING - Column age: 285 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 10:01:37,704 - src.clean - WARNING - Column age: 144 value(s) outside valid range (0–120); setting to NA
+2025-12-09 10:01:37,741 - src.clean - WARNING - Column room_number: 394 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 10:01:37,796 - src.clean - INFO - Column billing_amount converted to numeric successfully.
+2025-12-09 10:01:37,796 - src.clean - INFO - Rounded column billing_amount to 2 decimal place(s).
+2025-12-09 10:01:37,873 - src.clean - WARNING - Column date_of_admission: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 10:01:37,890 - src.clean - WARNING - Column discharge_date: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 10:01:37,900 - src.clean - INFO - clean() completed. Output df has 57166 rows x 15 columns
+2025-12-09 10:01:37,901 - src.transform - INFO - Starting transform(): input df has 57166 rows x 15 columns
+2025-12-09 10:01:38,174 - src.transform - INFO - Built people_df (no nulls): 46803 rows x 5 columns
+2025-12-09 10:01:38,195 - src.transform - INFO - Built hospitals_df (no nulls) (no nulls): 39007 rows x 2 columns
+2025-12-09 10:01:38,230 - src.transform - INFO - Built doctors_df (pre-hospital merge, no nulls) (no nulls): 48928 rows x 3 columns
+2025-12-09 10:01:38,272 - src.transform - INFO - Built conditions_df (no nulls): 6 rows x 2 columns
+2025-12-09 10:01:38,282 - src.transform - INFO - Built insurance_df (no nulls): 6 rows x 2 columns
+2025-12-09 10:01:38,293 - src.transform - INFO - Built test_results_df (no nulls): 3 rows x 2 columns
+2025-12-09 10:01:38,447 - src.transform - INFO - Built admission_types_df (no nulls): 3 rows x 2 columns
+2025-12-09 10:01:38,742 - src.transform - INFO - Finished merges; df is now 57166 rows x 27 columns
+2025-12-09 10:01:40,015 - src.transform - INFO - Built admissions_df: 25974 rows x 12 columns
+2025-12-09 10:01:40,016 - src.transform - INFO - After reject split: 25974 valid admissions, 31192 rejected rows
+2025-12-09 10:01:40,107 - src.transform - INFO - transform() completed successfully. Output tables: {'people': (46803, 5), 'doctors': (46283, 4), 'hospitals': (39007, 2), 'conditions': (6, 2), 'insurance': (6, 2), 'admission_types': (3, 2), 'test_results': (3, 2), 'admissions': (25974, 12), 'rejects': (31192, 16)}
+2025-12-09 10:01:40,114 - src.load - INFO - Starting load() with mode=fullload, batch_size=5000
+2025-12-09 10:01:40,114 - src.load - INFO - Starting load()
+2025-12-09 10:01:40,114 - src.load - INFO - Row counts - people=46803, hospitals=39007, doctors=46283, conditions=6, insurance=6, test_results=3, admission_types=3, admissions=25974, rejects=31192
+2025-12-09 10:01:40,114 - src.load - INFO - Connecting to database...
+2025-12-09 10:01:40,341 - src.load - INFO - Database connection established.
+2025-12-09 10:01:40,354 - src.load - INFO - Tables created/verified successfully.
+2025-12-09 10:01:40,354 - src.load - INFO - Database connection closed. End of load().
+2025-12-09 10:02:12,311 - src.read - INFO - Starting read() for type=csv, path=data/healthcare_dataset_dirty.csv
+2025-12-09 10:02:12,312 - src.read - INFO - Reading CSV file from data/healthcare_dataset_dirty.csv
+2025-12-09 10:02:12,579 - src.read - INFO - Successfully read CSV: 57166 rows x 15 columns
+2025-12-09 10:02:12,579 - src.clean - INFO - Starting clean(): input df has 57166 rows x 15 columns
+2025-12-09 10:02:13,064 - src.clean - INFO - Standardized string columns where present according to rules config.
+2025-12-09 10:02:13,140 - src.clean - WARNING - Column age: 285 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 10:02:13,141 - src.clean - WARNING - Column age: 144 value(s) outside valid range (0–120); setting to NA
+2025-12-09 10:02:13,203 - src.clean - WARNING - Column room_number: 394 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 10:02:13,312 - src.clean - INFO - Column billing_amount converted to numeric successfully.
+2025-12-09 10:02:13,314 - src.clean - INFO - Rounded column billing_amount to 2 decimal place(s).
+2025-12-09 10:02:13,339 - src.clean - WARNING - Column date_of_admission: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 10:02:13,358 - src.clean - WARNING - Column discharge_date: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 10:02:13,369 - src.clean - INFO - clean() completed. Output df has 57166 rows x 15 columns
+2025-12-09 10:02:13,369 - src.transform - INFO - Starting transform(): input df has 57166 rows x 15 columns
+2025-12-09 10:02:13,611 - src.transform - INFO - Built people_df (no nulls): 46803 rows x 5 columns
+2025-12-09 10:02:13,635 - src.transform - INFO - Built hospitals_df (no nulls) (no nulls): 39007 rows x 2 columns
+2025-12-09 10:02:13,674 - src.transform - INFO - Built doctors_df (pre-hospital merge, no nulls) (no nulls): 48928 rows x 3 columns
+2025-12-09 10:02:13,736 - src.transform - INFO - Built conditions_df (no nulls): 6 rows x 2 columns
+2025-12-09 10:02:13,748 - src.transform - INFO - Built insurance_df (no nulls): 6 rows x 2 columns
+2025-12-09 10:02:13,765 - src.transform - INFO - Built test_results_df (no nulls): 3 rows x 2 columns
+2025-12-09 10:02:13,793 - src.transform - INFO - Built admission_types_df (no nulls): 3 rows x 2 columns
+2025-12-09 10:02:14,061 - src.transform - INFO - Finished merges; df is now 57166 rows x 27 columns
+2025-12-09 10:02:15,378 - src.transform - INFO - Built admissions_df: 25974 rows x 12 columns
+2025-12-09 10:02:15,378 - src.transform - INFO - After reject split: 25974 valid admissions, 31192 rejected rows
+2025-12-09 10:02:15,473 - src.transform - INFO - transform() completed successfully. Output tables: {'people': (46803, 5), 'doctors': (46283, 4), 'hospitals': (39007, 2), 'conditions': (6, 2), 'insurance': (6, 2), 'admission_types': (3, 2), 'test_results': (3, 2), 'admissions': (25974, 12), 'rejects': (31192, 16)}
+2025-12-09 10:02:15,478 - src.load - INFO - Starting load() with mode=full-refresh, batch_size=5000
+2025-12-09 10:02:15,478 - src.load - INFO - Starting load()
+2025-12-09 10:02:15,479 - src.load - INFO - Row counts - people=46803, hospitals=39007, doctors=46283, conditions=6, insurance=6, test_results=3, admission_types=3, admissions=25974, rejects=31192
+2025-12-09 10:02:15,479 - src.load - INFO - Connecting to database...
+2025-12-09 10:02:15,737 - src.load - INFO - Database connection established.
+2025-12-09 10:02:15,740 - src.load - INFO - Tables created/verified successfully.
+2025-12-09 10:02:15,740 - src.load - INFO - Database connection closed. End of load().
+2025-12-09 10:02:53,380 - src.read - INFO - Starting read() for type=csv, path=data/healthcare_dataset_dirty.csv
+2025-12-09 10:02:53,381 - src.read - INFO - Reading CSV file from data/healthcare_dataset_dirty.csv
+2025-12-09 10:02:53,605 - src.read - INFO - Successfully read CSV: 57166 rows x 15 columns
+2025-12-09 10:02:53,605 - src.clean - INFO - Starting clean(): input df has 57166 rows x 15 columns
+2025-12-09 10:02:54,457 - src.clean - INFO - Standardized string columns where present according to rules config.
+2025-12-09 10:02:54,546 - src.clean - WARNING - Column age: 285 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 10:02:54,568 - src.clean - WARNING - Column age: 144 value(s) outside valid range (0–120); setting to NA
+2025-12-09 10:02:54,693 - src.clean - WARNING - Column room_number: 394 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 10:02:54,848 - src.clean - INFO - Column billing_amount converted to numeric successfully.
+2025-12-09 10:02:54,850 - src.clean - INFO - Rounded column billing_amount to 2 decimal place(s).
+2025-12-09 10:02:55,160 - src.clean - WARNING - Column date_of_admission: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 10:02:55,224 - src.clean - WARNING - Column discharge_date: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 10:02:55,240 - src.clean - INFO - clean() completed. Output df has 57166 rows x 15 columns
+2025-12-09 10:02:55,240 - src.transform - INFO - Starting transform(): input df has 57166 rows x 15 columns
+2025-12-09 10:02:55,692 - src.transform - INFO - Built people_df (no nulls): 46803 rows x 5 columns
+2025-12-09 10:02:55,707 - src.transform - INFO - Built hospitals_df (no nulls) (no nulls): 39007 rows x 2 columns
+2025-12-09 10:02:55,741 - src.transform - INFO - Built doctors_df (pre-hospital merge, no nulls) (no nulls): 48928 rows x 3 columns
+2025-12-09 10:02:55,853 - src.transform - INFO - Built conditions_df (no nulls): 6 rows x 2 columns
+2025-12-09 10:02:55,882 - src.transform - INFO - Built insurance_df (no nulls): 6 rows x 2 columns
+2025-12-09 10:02:55,893 - src.transform - INFO - Built test_results_df (no nulls): 3 rows x 2 columns
+2025-12-09 10:02:55,922 - src.transform - INFO - Built admission_types_df (no nulls): 3 rows x 2 columns
+2025-12-09 10:02:56,238 - src.transform - INFO - Finished merges; df is now 57166 rows x 27 columns
+2025-12-09 10:02:57,765 - src.transform - INFO - Built admissions_df: 25974 rows x 12 columns
+2025-12-09 10:02:57,765 - src.transform - INFO - After reject split: 25974 valid admissions, 31192 rejected rows
+2025-12-09 10:02:57,872 - src.transform - INFO - transform() completed successfully. Output tables: {'people': (46803, 5), 'doctors': (46283, 4), 'hospitals': (39007, 2), 'conditions': (6, 2), 'insurance': (6, 2), 'admission_types': (3, 2), 'test_results': (3, 2), 'admissions': (25974, 12), 'rejects': (31192, 16)}
+2025-12-09 10:02:57,879 - src.load - INFO - Starting load() with mode=None, batch_size=5000
+2025-12-09 10:02:57,879 - src.load - INFO - Starting load()
+2025-12-09 10:02:57,879 - src.load - INFO - Row counts - people=46803, hospitals=39007, doctors=46283, conditions=6, insurance=6, test_results=3, admission_types=3, admissions=25974, rejects=31192
+2025-12-09 10:02:57,879 - src.load - INFO - Connecting to database...
+2025-12-09 10:02:58,101 - src.load - INFO - Database connection established.
+2025-12-09 10:02:58,106 - src.load - INFO - Tables created/verified successfully.
+2025-12-09 10:02:58,106 - src.load - INFO - Database connection closed. End of load().
+2025-12-09 10:04:47,420 - src.read - INFO - Starting read() for type=csv, path=data/healthcare_dataset_dirty.csv
+2025-12-09 10:04:47,421 - src.read - INFO - Reading CSV file from data/healthcare_dataset_dirty.csv
+2025-12-09 10:04:47,703 - src.read - INFO - Successfully read CSV: 57166 rows x 15 columns
+2025-12-09 10:04:47,703 - src.clean - INFO - Starting clean(): input df has 57166 rows x 15 columns
+2025-12-09 10:04:48,345 - src.clean - INFO - Standardized string columns where present according to rules config.
+2025-12-09 10:04:48,392 - src.clean - WARNING - Column age: 285 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 10:04:48,394 - src.clean - WARNING - Column age: 144 value(s) outside valid range (0–120); setting to NA
+2025-12-09 10:04:48,430 - src.clean - WARNING - Column room_number: 394 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 10:04:48,470 - src.clean - INFO - Column billing_amount converted to numeric successfully.
+2025-12-09 10:04:48,471 - src.clean - INFO - Rounded column billing_amount to 2 decimal place(s).
+2025-12-09 10:04:48,508 - src.clean - WARNING - Column date_of_admission: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 10:04:48,524 - src.clean - WARNING - Column discharge_date: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 10:04:48,534 - src.clean - INFO - clean() completed. Output df has 57166 rows x 15 columns
+2025-12-09 10:04:48,534 - src.transform - INFO - Starting transform(): input df has 57166 rows x 15 columns
+2025-12-09 10:04:48,788 - src.transform - INFO - Built people_df (no nulls): 46803 rows x 5 columns
+2025-12-09 10:04:48,817 - src.transform - INFO - Built hospitals_df (no nulls) (no nulls): 39007 rows x 2 columns
+2025-12-09 10:04:48,852 - src.transform - INFO - Built doctors_df (pre-hospital merge, no nulls) (no nulls): 48928 rows x 3 columns
+2025-12-09 10:04:48,913 - src.transform - INFO - Built conditions_df (no nulls): 6 rows x 2 columns
+2025-12-09 10:04:48,935 - src.transform - INFO - Built insurance_df (no nulls): 6 rows x 2 columns
+2025-12-09 10:04:48,945 - src.transform - INFO - Built test_results_df (no nulls): 3 rows x 2 columns
+2025-12-09 10:04:48,963 - src.transform - INFO - Built admission_types_df (no nulls): 3 rows x 2 columns
+2025-12-09 10:04:49,192 - src.transform - INFO - Finished merges; df is now 57166 rows x 27 columns
+2025-12-09 10:04:50,540 - src.transform - INFO - Built admissions_df: 25974 rows x 12 columns
+2025-12-09 10:04:50,540 - src.transform - INFO - After reject split: 25974 valid admissions, 31192 rejected rows
+2025-12-09 10:04:50,634 - src.transform - INFO - transform() completed successfully. Output tables: {'people': (46803, 5), 'doctors': (46283, 4), 'hospitals': (39007, 2), 'conditions': (6, 2), 'insurance': (6, 2), 'admission_types': (3, 2), 'test_results': (3, 2), 'admissions': (25974, 12), 'rejects': (31192, 16)}
+2025-12-09 10:04:50,640 - src.load - INFO - Starting load() with mode=None, batch_size=5000
+2025-12-09 10:04:50,640 - src.load - INFO - Starting load()
+2025-12-09 10:04:50,640 - src.load - INFO - Row counts - people=46803, hospitals=39007, doctors=46283, conditions=6, insurance=6, test_results=3, admission_types=3, admissions=25974, rejects=31192
+2025-12-09 10:04:50,640 - src.load - INFO - Connecting to database...
+2025-12-09 10:04:50,830 - src.load - INFO - Database connection established.
+2025-12-09 10:04:50,834 - src.load - INFO - Tables created/verified successfully.
+2025-12-09 10:04:50,834 - src.load - INFO - Database connection closed. End of load().
+2025-12-09 10:05:12,260 - src.read - INFO - Starting read() for type=csv, path=data/healthcare_dataset_dirty.csv
+2025-12-09 10:05:12,260 - src.read - INFO - Reading CSV file from data/healthcare_dataset_dirty.csv
+2025-12-09 10:05:12,469 - src.read - INFO - Successfully read CSV: 57166 rows x 15 columns
+2025-12-09 10:05:12,470 - src.clean - INFO - Starting clean(): input df has 57166 rows x 15 columns
+2025-12-09 10:05:13,083 - src.clean - INFO - Standardized string columns where present according to rules config.
+2025-12-09 10:05:13,144 - src.clean - WARNING - Column age: 285 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 10:05:13,149 - src.clean - WARNING - Column age: 144 value(s) outside valid range (0–120); setting to NA
+2025-12-09 10:05:13,230 - src.clean - WARNING - Column room_number: 394 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 10:05:13,314 - src.clean - INFO - Column billing_amount converted to numeric successfully.
+2025-12-09 10:05:13,316 - src.clean - INFO - Rounded column billing_amount to 2 decimal place(s).
+2025-12-09 10:05:13,351 - src.clean - WARNING - Column date_of_admission: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 10:05:13,376 - src.clean - WARNING - Column discharge_date: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 10:05:13,388 - src.clean - INFO - clean() completed. Output df has 57166 rows x 15 columns
+2025-12-09 10:05:13,388 - src.transform - INFO - Starting transform(): input df has 57166 rows x 15 columns
+2025-12-09 10:05:13,662 - src.transform - INFO - Built people_df (no nulls): 46803 rows x 5 columns
+2025-12-09 10:05:13,676 - src.transform - INFO - Built hospitals_df (no nulls) (no nulls): 39007 rows x 2 columns
+2025-12-09 10:05:13,714 - src.transform - INFO - Built doctors_df (pre-hospital merge, no nulls) (no nulls): 48928 rows x 3 columns
+2025-12-09 10:05:13,764 - src.transform - INFO - Built conditions_df (no nulls): 6 rows x 2 columns
+2025-12-09 10:05:13,775 - src.transform - INFO - Built insurance_df (no nulls): 6 rows x 2 columns
+2025-12-09 10:05:13,795 - src.transform - INFO - Built test_results_df (no nulls): 3 rows x 2 columns
+2025-12-09 10:05:13,841 - src.transform - INFO - Built admission_types_df (no nulls): 3 rows x 2 columns
+2025-12-09 10:05:14,155 - src.transform - INFO - Finished merges; df is now 57166 rows x 27 columns
+2025-12-09 10:05:15,772 - src.transform - INFO - Built admissions_df: 25974 rows x 12 columns
+2025-12-09 10:05:15,773 - src.transform - INFO - After reject split: 25974 valid admissions, 31192 rejected rows
+2025-12-09 10:05:15,877 - src.transform - INFO - transform() completed successfully. Output tables: {'people': (46803, 5), 'doctors': (46283, 4), 'hospitals': (39007, 2), 'conditions': (6, 2), 'insurance': (6, 2), 'admission_types': (3, 2), 'test_results': (3, 2), 'admissions': (25974, 12), 'rejects': (31192, 16)}
+2025-12-09 10:05:15,882 - src.load - INFO - Starting load() with mode=full-refresh, batch_size=5000
+2025-12-09 10:05:15,882 - src.load - INFO - Starting load()
+2025-12-09 10:05:15,882 - src.load - INFO - Row counts - people=46803, hospitals=39007, doctors=46283, conditions=6, insurance=6, test_results=3, admission_types=3, admissions=25974, rejects=31192
+2025-12-09 10:05:15,883 - src.load - INFO - Connecting to database...
+2025-12-09 10:05:16,128 - src.load - INFO - Database connection established.
+2025-12-09 10:05:16,135 - src.load - INFO - Tables created/verified successfully.
+2025-12-09 10:05:16,136 - src.load - INFO - Database connection closed. End of load().
+2025-12-09 10:06:26,836 - src.read - INFO - Starting read() for type=csv, path=data/healthcare_dataset_dirty.csv
+2025-12-09 10:06:26,836 - src.read - INFO - Reading CSV file from data/healthcare_dataset_dirty.csv
+2025-12-09 10:06:27,278 - src.read - INFO - Successfully read CSV: 57166 rows x 15 columns
+2025-12-09 10:06:27,281 - src.clean - INFO - Starting clean(): input df has 57166 rows x 15 columns
+2025-12-09 10:06:28,389 - src.clean - INFO - Standardized string columns where present according to rules config.
+2025-12-09 10:06:28,600 - src.clean - WARNING - Column age: 285 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 10:06:28,602 - src.clean - WARNING - Column age: 144 value(s) outside valid range (0–120); setting to NA
+2025-12-09 10:06:28,767 - src.clean - WARNING - Column room_number: 394 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 10:06:28,826 - src.clean - INFO - Column billing_amount converted to numeric successfully.
+2025-12-09 10:06:28,827 - src.clean - INFO - Rounded column billing_amount to 2 decimal place(s).
+2025-12-09 10:06:28,866 - src.clean - WARNING - Column date_of_admission: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 10:06:28,914 - src.clean - WARNING - Column discharge_date: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 10:06:28,929 - src.clean - INFO - clean() completed. Output df has 57166 rows x 15 columns
+2025-12-09 10:06:28,929 - src.transform - INFO - Starting transform(): input df has 57166 rows x 15 columns
+2025-12-09 10:06:29,236 - src.transform - INFO - Built people_df (no nulls): 46803 rows x 5 columns
+2025-12-09 10:06:29,369 - src.transform - INFO - Built hospitals_df (no nulls) (no nulls): 39007 rows x 2 columns
+2025-12-09 10:06:29,477 - src.transform - INFO - Built doctors_df (pre-hospital merge, no nulls) (no nulls): 48928 rows x 3 columns
+2025-12-09 10:06:29,553 - src.transform - INFO - Built conditions_df (no nulls): 6 rows x 2 columns
+2025-12-09 10:06:29,564 - src.transform - INFO - Built insurance_df (no nulls): 6 rows x 2 columns
+2025-12-09 10:06:29,574 - src.transform - INFO - Built test_results_df (no nulls): 3 rows x 2 columns
+2025-12-09 10:06:29,585 - src.transform - INFO - Built admission_types_df (no nulls): 3 rows x 2 columns
+2025-12-09 10:06:29,919 - src.transform - INFO - Finished merges; df is now 57166 rows x 27 columns
+2025-12-09 10:06:32,346 - src.transform - INFO - Built admissions_df: 25974 rows x 12 columns
+2025-12-09 10:06:32,346 - src.transform - INFO - After reject split: 25974 valid admissions, 31192 rejected rows
+2025-12-09 10:06:32,528 - src.transform - INFO - transform() completed successfully. Output tables: {'people': (46803, 5), 'doctors': (46283, 4), 'hospitals': (39007, 2), 'conditions': (6, 2), 'insurance': (6, 2), 'admission_types': (3, 2), 'test_results': (3, 2), 'admissions': (25974, 12), 'rejects': (31192, 16)}
+2025-12-09 10:06:32,547 - src.load - INFO - Starting load() with mode=full_refresh, batch_size=5000
+2025-12-09 10:06:32,548 - src.load - INFO - Starting load()
+2025-12-09 10:06:32,548 - src.load - INFO - Row counts - people=46803, hospitals=39007, doctors=46283, conditions=6, insurance=6, test_results=3, admission_types=3, admissions=25974, rejects=31192
+2025-12-09 10:06:32,548 - src.load - INFO - Connecting to database...
+2025-12-09 10:06:32,698 - src.load - INFO - Database connection established.
+2025-12-09 10:06:32,704 - src.load - INFO - Tables created/verified successfully.
+2025-12-09 10:06:32,704 - src.load - INFO - Truncating tables and resetting identities...
+2025-12-09 10:06:33,212 - src.load - INFO - Tables truncated.
+2025-12-09 10:06:33,212 - src.load - INFO - Starting schema-driven insert/upsert phase...
+2025-12-09 10:06:33,212 - src.load - INFO - Loading table people in batches of 5000 rows (total 46803 rows)
+2025-12-09 10:06:43,010 - src.load - INFO - Loading table hospitals in batches of 5000 rows (total 39007 rows)
+2025-12-09 10:06:48,207 - src.load - INFO - Loading table doctors in batches of 5000 rows (total 46283 rows)
+2025-12-09 10:06:54,738 - src.load - INFO - Loading table admission_data in batches of 5000 rows (total 25974 rows)
+2025-12-09 10:07:02,072 - src.load - INFO - Loading table rejects in batches of 5000 rows (total 31192 rows)
+2025-12-09 10:07:06,517 - src.load - INFO - Load completed successfully.
+2025-12-09 10:07:06,518 - src.load - INFO - Database connection closed. End of load().
+2025-12-09 10:08:06,846 - src.read - INFO - Starting read() for type=csv, path=data/healthcare_dataset_dirty.csv
+2025-12-09 10:08:06,846 - src.read - INFO - Reading CSV file from data/healthcare_dataset_dirty.csv
+2025-12-09 10:08:07,326 - src.read - INFO - Successfully read CSV: 57166 rows x 15 columns
+2025-12-09 10:08:07,326 - src.clean - INFO - Starting clean(): input df has 57166 rows x 15 columns
+2025-12-09 10:08:07,828 - src.clean - INFO - Standardized string columns where present according to rules config.
+2025-12-09 10:08:07,858 - src.clean - WARNING - Column age: 285 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 10:08:07,860 - src.clean - WARNING - Column age: 144 value(s) outside valid range (0–120); setting to NA
+2025-12-09 10:08:07,889 - src.clean - WARNING - Column room_number: 394 value(s) could not be converted to numeric and were set to NaN
+2025-12-09 10:08:07,926 - src.clean - INFO - Column billing_amount converted to numeric successfully.
+2025-12-09 10:08:07,927 - src.clean - INFO - Rounded column billing_amount to 2 decimal place(s).
+2025-12-09 10:08:07,958 - src.clean - WARNING - Column date_of_admission: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 10:08:07,981 - src.clean - WARNING - Column discharge_date: 2858 value(s) could not be parsed as datetime and were set to NaT
+2025-12-09 10:08:07,991 - src.clean - INFO - clean() completed. Output df has 57166 rows x 15 columns
+2025-12-09 10:08:07,997 - src.transform - INFO - Starting transform(): input df has 57166 rows x 15 columns
+2025-12-09 10:08:08,278 - src.transform - INFO - Built people_df (no nulls): 46803 rows x 5 columns
+2025-12-09 10:08:08,294 - src.transform - INFO - Built hospitals_df (no nulls) (no nulls): 39007 rows x 2 columns
+2025-12-09 10:08:08,333 - src.transform - INFO - Built doctors_df (pre-hospital merge, no nulls) (no nulls): 48928 rows x 3 columns
+2025-12-09 10:08:08,383 - src.transform - INFO - Built conditions_df (no nulls): 6 rows x 2 columns
+2025-12-09 10:08:08,399 - src.transform - INFO - Built insurance_df (no nulls): 6 rows x 2 columns
+2025-12-09 10:08:08,414 - src.transform - INFO - Built test_results_df (no nulls): 3 rows x 2 columns
+2025-12-09 10:08:08,537 - src.transform - INFO - Built admission_types_df (no nulls): 3 rows x 2 columns
+2025-12-09 10:08:08,788 - src.transform - INFO - Finished merges; df is now 57166 rows x 27 columns
+2025-12-09 10:08:10,142 - src.transform - INFO - Built admissions_df: 25974 rows x 12 columns
+2025-12-09 10:08:10,142 - src.transform - INFO - After reject split: 25974 valid admissions, 31192 rejected rows
+2025-12-09 10:08:10,245 - src.transform - INFO - transform() completed successfully. Output tables: {'people': (46803, 5), 'doctors': (46283, 4), 'hospitals': (39007, 2), 'conditions': (6, 2), 'insurance': (6, 2), 'admission_types': (3, 2), 'test_results': (3, 2), 'admissions': (25974, 12), 'rejects': (31192, 16)}
+2025-12-09 10:08:10,255 - src.load - INFO - Starting load() with mode=full_refresh, batch_size=5000
+2025-12-09 10:08:10,255 - src.load - INFO - Starting load()
+2025-12-09 10:08:10,255 - src.load - INFO - Row counts - people=46803, hospitals=39007, doctors=46283, conditions=6, insurance=6, test_results=3, admission_types=3, admissions=25974, rejects=31192
+2025-12-09 10:08:10,255 - src.load - INFO - Connecting to database...
+2025-12-09 10:08:10,476 - src.load - INFO - Database connection established.
+2025-12-09 10:08:10,601 - src.load - INFO - Tables created/verified successfully.
+2025-12-09 10:08:10,601 - src.load - INFO - Truncating tables and resetting identities...
+2025-12-09 10:08:10,637 - src.load - INFO - Tables truncated.
+2025-12-09 10:08:10,637 - src.load - INFO - Starting schema-driven insert/upsert phase...
+2025-12-09 10:08:10,637 - src.load - INFO - Loading table people in batches of 5000 rows (total 46803 rows)
+2025-12-09 10:08:18,958 - src.load - INFO - Loading table hospitals in batches of 5000 rows (total 39007 rows)
+2025-12-09 10:08:23,720 - src.load - INFO - Loading table doctors in batches of 5000 rows (total 46283 rows)
+2025-12-09 10:08:31,996 - src.load - INFO - Loading table admission_data in batches of 5000 rows (total 25974 rows)
+2025-12-09 10:08:43,784 - src.load - INFO - Loading table rejects in batches of 5000 rows (total 31192 rows)
+2025-12-09 10:08:49,564 - src.load - INFO - Load completed successfully.
+2025-12-09 10:08:49,565 - src.load - INFO - Database connection closed. End of load().

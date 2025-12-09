@@ -7,7 +7,7 @@ from src.config import CONFIG, get_source_config
 def main():
     db_url = CONFIG["defaults"]["db_url"]
     batch_size = CONFIG["defaults"]["batch_size"]
-    on_conflict = CONFIG["defaults"]["on_conflict"]
+    load_mode = CONFIG["defaults"]["load_mode"]
 
     healthcare_cfg = get_source_config("healthcare_csv")
 
@@ -16,7 +16,12 @@ def main():
 
     transformed_data = transform(cleaned_data)
 
-    load(transformed_data, db_url=db_url)
+    load(
+        transformed_data,
+        db_url=db_url,
+        mode=load_mode,
+        batch_size=batch_size,
+    )
 
 
 if __name__ == "__main__":

@@ -11,7 +11,7 @@ from src.config import (
 
 logger = get_logger(__name__)
 
-###Helper to Build Tables Based On schema.yml Not Null Columns, Generating PK based on PK Column###
+###Helper to Build Tables Based On schema.yml's Not Null Columns, Generating PK based on PK Column###
 def build_dimension_df(
     source_df,
     table_name,

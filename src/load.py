@@ -181,7 +181,11 @@ def insert_table(cur, table_name: str, df: pd.DataFrame) -> None:
 
         cur.execute(sql, values)
 
-def load(loaded_data, db_url):
+def load(loaded_data, 
+        db_url,
+        mode: str = "full_refresh",
+        batch_size: int | None = None
+        ) -> None:
     ###Getting DF from Loaded_Data Dictionary###
     people_df = loaded_data["people"]
     hospitals_df = loaded_data["hospitals"]
@@ -192,6 +196,8 @@ def load(loaded_data, db_url):
     admission_types_df = loaded_data["admission_types"]
     admissions_df = loaded_data["admissions"]
     rejects_df = loaded_data["rejects"]
+
+    logger.info("Starting load() with mode=%s, batch_size=%s", mode, batch_size or "all")
 
     logger.info("Starting load()")
     logger.info(
@@ -222,22 +228,32 @@ def load(loaded_data, db_url):
 
         logger.info("Tables created/verified successfully.")
 
-        ###Truncating Rejects Table for New Rejects###
-        logger.info("Truncating tables and resetting identities...")
-        cur.execute("""
-            TRUNCATE rejects,
-                     admission_data,
-                     doctors,
-                     hospitals,
-                     conditions,
-                     insurance,
-                     admission_types,
-                     test_results,
-                     people
-            RESTART IDENTITY;
-        """)
-        conn.commit()
-        logger.info("Tables truncated.")
+        if mode == "full_refresh":
+            ###Truncating Rejects Table for New Rejects###
+            logger.info("Truncating tables and resetting identities...")
+            cur.execute("""
+                TRUNCATE rejects,
+                        admission_data,
+                        doctors,
+                        hospitals,
+                        conditions,
+                        insurance,
+                        admission_types,
+                        test_results,
+                        people
+                RESTART IDENTITY;
+            """)
+            conn.commit()
+            logger.info("Tables truncated.")
+
+        elif mode == "incremental":
+            logger.info(
+                "Incremental mode: skipping TRUNCATE; "
+                "upserts will apply on top of existing data."
+            )
+        else:
+            raise ValueError(f"Unknown load mode: {mode!r}")
+
 
         ###Starting Table Insertion Logic###
         table_to_df = {
@@ -267,12 +283,29 @@ def load(loaded_data, db_url):
         logger.info("Starting schema-driven insert/upsert phase...")
         for table_name in insertion_order:
             df = table_to_df[table_name]
-            insert_table(cur, table_name, df)
 
-        conn.commit()
-        logger.info("Load completed successfully.")
+            if df is None or df.empty:
+                logger.info("Table %s has no rows; skipping.", table_name)
+                continue
 
-        conn.commit()
+            ###Checking If batch_size, If The Dataframe is Larger than Batchsize, Load Incrementally###
+            if batch_size is not None and len(df) > batch_size:
+                logger.info(
+                    "Loading table %s in batches of %d rows (total %d rows)",
+                    table_name,
+                    batch_size,
+                    len(df),
+                )
+                ###Adjusting the Pointer For the Position of DataFrame to Insert From###
+                for start in range(0, len(df), batch_size):
+                    end = start + batch_size
+                    batch_df = df.iloc[start:end].copy()
+                    insert_table(cur, table_name, batch_df)
+                    conn.commit()
+            else:
+                insert_table(cur, table_name, df)
+                conn.commit()
+
         logger.info("Load completed successfully.")
 
     except psycopg2.Error:
