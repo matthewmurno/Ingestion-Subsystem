@@ -1,12 +1,14 @@
 from pathlib import Path
 import os
 import yaml
+from dotenv import load_dotenv
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
 DEFAULT_CONFIG_PATH = ROOT_DIR / "config" / "sources.yml"
 SCHEMAS_CONFIG_PATH = ROOT_DIR / "config" / "schemas.yml"
 RULES_CONFIG_PATH = ROOT_DIR / "config" / "rules.yml"
 
+load_dotenv(ROOT_DIR / ".env")
 
 def load_config(path=None, schemas_path=None):
     if path is None:

@@ -1,8 +1,9 @@
 import pandas as pd
 import psycopg2
 from psycopg2.extensions import connection as PgConnection
-from src.config import CONFIG, get_source_config
+from datetime import date
 
+from src.config import CONFIG, get_source_config
 from src.logger import get_logger
 
 logger = get_logger(__name__)
@@ -181,6 +182,19 @@ def insert_table(cur, table_name: str, df: pd.DataFrame) -> None:
 
         cur.execute(sql, values)
 
+def get_last_loaded_admission_date(conn: PgConnection) -> date | None:
+    with conn.cursor() as cur:
+        try:
+            cur.execute("SELECT MAX(date_of_admission) FROM admission_data;")
+        except psycopg2.Error:
+            # Table may not exist yet on the very first run
+            return None
+
+        row = cur.fetchone()
+        if not row:
+            return None
+        return row[0]
+
 def load(loaded_data, 
         db_url,
         mode: str = "full_refresh",
@@ -228,6 +242,7 @@ def load(loaded_data,
 
         logger.info("Tables created/verified successfully.")
 
+        last_loaded_date = None
         if mode == "full_refresh":
             ###Truncating Rejects Table for New Rejects###
             logger.info("Truncating tables and resetting identities...")
