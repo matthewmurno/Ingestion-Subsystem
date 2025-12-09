@@ -1,10 +1,13 @@
 import logging
+from logging.handlers import RotatingFileHandler
+from datetime import datetime
 from pathlib import Path
 
 LOG_DIR = Path(__file__).resolve().parent.parent / "logs"
 LOG_DIR.mkdir(exist_ok=True)
 
-LOG_FILE = LOG_DIR / "etl.log"
+RUN_ID = datetime.now().strftime("%Y%m%d_%H%M%S")
+LOG_FILE = LOG_DIR / f"etl_{RUN_ID}.log"
 
 def get_logger(name: str = __name__) -> logging.Logger:
 
@@ -23,7 +26,12 @@ def get_logger(name: str = __name__) -> logging.Logger:
     console_handler.setLevel(logging.INFO)
     console_handler.setFormatter(formatter)
 
-    file_handler = logging.FileHandler(LOG_FILE)
+    file_handler = RotatingFileHandler(
+        LOG_FILE,
+        maxBytes=5 * 1024 * 1024,
+        backupCount=5,
+        encoding="utf-8",
+    )
     file_handler.setLevel(logging.INFO)
     file_handler.setFormatter(formatter)
 

@@ -21,3 +21,6 @@ __pycache__/
 *.zip
 
 data/healthcare_dataset.csv
+
+#logs
+logs/*.log
