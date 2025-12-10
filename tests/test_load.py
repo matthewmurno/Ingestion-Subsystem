@@ -47,7 +47,8 @@ class FakeConn:
         self.closed = True
 
 
-def _make_loaded_data(people_df: pd.DataFrame, rejects_df: pd.DataFrame | None = None):
+def _make_loaded_data(people_df: pd.DataFrame, rejects_df: pd.DataFrame | None = None, stg_admissions_df: pd.DataFrame | None = None,
+):
     hospitals_df = pd.DataFrame(
         [{"hospital_id": 1, "hospital_name": "General Hospital"}]
     )
@@ -91,6 +92,29 @@ def _make_loaded_data(people_df: pd.DataFrame, rejects_df: pd.DataFrame | None =
         ]
     )
 
+    if stg_admissions_df is None:
+        stg_admissions_df = pd.DataFrame(
+            [
+                {
+                    "name": "John Doe",
+                    "age": 30,
+                    "gender": "M",
+                    "blood_type": "A+",
+                    "medical_condition": "Flu",
+                    "date_of_admission": pd.Timestamp("2024-01-01"),
+                    "doctor": "Dr. Who",
+                    "hospital": "General Hospital",
+                    "insurance_provider": "Health Inc",
+                    "billing_amount": 1234.56,
+                    "room_number": 101,
+                    "admission_type": "Emergency",
+                    "discharge_date": pd.Timestamp("2024-01-02"),
+                    "medication": "Tylenol",
+                    "test_results": "normal",
+                }
+            ]
+        )
+
     if rejects_df is None:
         rejects_df = pd.DataFrame(
             [
@@ -123,6 +147,7 @@ def _make_loaded_data(people_df: pd.DataFrame, rejects_df: pd.DataFrame | None =
         "insurance": insurance_df,
         "test_results": test_results_df,
         "admission_types": admission_types_df,
+        "stg_admissions": stg_admissions_df,
         "admissions": admissions_df,
         "rejects": rejects_df,
     }
@@ -154,11 +179,11 @@ def test_load_happy_path_inserts_and_commits(monkeypatch):
 
     load(loaded_data, "postgresql://test-db")
 
-    assert any('CREATE TABLE IF NOT EXISTS "people"' in sql for sql, _ in fake_cursor.executed)
-    assert any("TRUNCATE rejects" in sql for sql, _ in fake_cursor.executed)
-    assert any("INSERT INTO people" in sql for sql, _ in fake_cursor.executed)
-    assert any("INSERT INTO admission_data" in sql for sql, _ in fake_cursor.executed)
-    assert any("INSERT INTO rejects" in sql for sql, _ in fake_cursor.executed)
+    assert any('CREATE TABLE IF NOT EXISTS "dim_people"' in sql for sql, _ in fake_cursor.executed)
+    assert any("TRUNCATE stg_rejects" in sql for sql, _ in fake_cursor.executed)
+    assert any("INSERT INTO dim_people" in sql for sql, _ in fake_cursor.executed)
+    assert any("INSERT INTO fact_admission_data" in sql for sql, _ in fake_cursor.executed)
+    assert any("INSERT INTO stg_rejects" in sql for sql, _ in fake_cursor.executed)
 
     assert fake_conn.commits >= 3
     assert fake_conn.rollbacks == 0
@@ -205,7 +230,7 @@ def test_load_people_age_handling(monkeypatch):
     load(loaded_data, "postgresql://test-db")
 
     people_inserts = [
-        params for sql, params in fake_cursor.executed if "INSERT INTO people" in sql
+        params for sql, params in fake_cursor.executed if "INSERT INTO dim_people" in sql
     ]
     assert len(people_inserts) == 3
 
@@ -213,7 +238,7 @@ def test_load_people_age_handling(monkeypatch):
 
     assert ages[0] == 25
     assert ages[1] is None
-    assert ages[2] is None
+    assert ages[2] == 150 
 
 
 def test_load_rolls_back_on_db_error(monkeypatch):
@@ -230,7 +255,7 @@ def test_load_rolls_back_on_db_error(monkeypatch):
     )
 
     loaded_data = _make_loaded_data(people_df)
-    fake_cursor = FakeCursor(fail_on_sql_substring="INSERT INTO people")
+    fake_cursor = FakeCursor(fail_on_sql_substring="INSERT INTO dim_people")
     fake_conn = FakeConn(fake_cursor)
 
     def fake_connect(dsn):

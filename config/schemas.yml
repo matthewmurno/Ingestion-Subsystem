@@ -1,5 +1,5 @@
 schemas:
-  people:
+  dim_people:
     columns:
       person_id:
         type: uuid
@@ -21,7 +21,7 @@ schemas:
         not_null: true
         source: blood_type
 
-  hospitals:
+  dim_hospitals:
     columns:
       hospital_id:
         type: int
@@ -31,7 +31,7 @@ schemas:
         not_null: true
         source: hospital
 
-  doctors:
+  dim_doctors:
     columns:
       doctor_id:
         type: int
@@ -44,10 +44,10 @@ schemas:
         type: int
         not_null: true
         references:
-          table: hospitals
+          table: dim_hospitals
           column: hospital_id
 
-  conditions:
+  dim_conditions:
     columns:
       condition_id:
         type: int
@@ -57,7 +57,7 @@ schemas:
         not_null: true
         source: medical_condition
 
-  insurance:
+  dim_insurance:
     columns:
       insurance_id:
         type: int
@@ -67,7 +67,7 @@ schemas:
         not_null: true
         source: insurance_provider
 
-  test_results:
+  dim_test_results:
     columns:
       test_result_id:
         type: int
@@ -78,7 +78,7 @@ schemas:
         check: "result_label IN ('inconclusive', 'normal', 'abnormal')"
         source: test_results
 
-  admission_types:
+  dim_admission_types:
     columns:
       admission_type_id:
         type: int
@@ -88,7 +88,7 @@ schemas:
         not_null: true
         source: admission_type
 
-  admission_data:
+  fact_admission_data:
     columns:
       admission_id:
         type: int
@@ -97,37 +97,37 @@ schemas:
         type: uuid
         not_null: true
         references:
-          table: people
+          table: dim_people
           column: person_id
       doctor_id:
         type: int
         not_null: true
         references:
-          table: doctors
+          table: dim_doctors
           column: doctor_id
       condition_id:
         type: int
         not_null: true
         references:
-          table: conditions
+          table: dim_conditions
           column: condition_id
       insurance_id:
         type: int
         not_null: true
         references:
-          table: insurance
+          table: dim_insurance
           column: insurance_id
       admission_type_id:
         type: int
         not_null: true
         references:
-          table: admission_types
+          table: dim_admission_types
           column: admission_type_id
       test_result_id:
         type: int
         not_null: true
         references:
-          table: test_results
+          table: dim_test_results
           column: test_result_id
       date_of_admission:
         type: date
@@ -146,7 +146,7 @@ schemas:
         not_null: true
         source: medication
 
-  rejects:
+  stg_rejects:
     columns:
       reject_id:
         type: serial
@@ -184,3 +184,55 @@ schemas:
       missing_columns:
         type: text
         not_null: true
+
+  stg_admissions:
+    columns:
+      stg_id:
+        type: bigserial
+        primary_key: true
+      name:
+        type: text
+        not_null: true
+        source: name
+      age:
+        type: int
+        source: age
+      gender:
+        type: text
+        source: gender
+      blood_type:
+        type: text
+        source: blood_type
+      medical_condition:
+        type: text
+        source: medical_condition
+      date_of_admission:
+        type: date
+        source: date_of_admission
+      doctor:
+        type: text
+        source: doctor
+      hospital:
+        type: text
+        source: hospital
+      insurance_provider:
+        type: text
+        source: insurance_provider
+      billing_amount:
+        type: numeric(12, 2)
+        source: billing_amount
+      room_number:
+        type: int
+        source: room_number
+      admission_type:
+        type: text
+        source: admission_type
+      discharge_date:
+        type: date
+        source: discharge_date
+      medication:
+        type: text
+        source: medication
+      test_results:
+        type: text
+        source: test_results

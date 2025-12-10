@@ -88,10 +88,10 @@ def merge_dimension(
 
 ###Building Dimension Tables for Admission and Rejects, Merging in Columns from All Related Tables###
 def build_admissions_and_rejects(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
-    admission_cols_cfg = get_table_columns("admission_data") 
+    admission_cols_cfg = get_table_columns("fact_admission_data") 
     admission_cols = list(admission_cols_cfg.keys())
 
-    admission_pk_col, _ = get_pk_column_and_type("admission_data")
+    admission_pk_col, _ = get_pk_column_and_type("fact_admission_data")
 
     admission_required_cols = [c for c in admission_cols if c != admission_pk_col]
 
@@ -106,8 +106,8 @@ def build_admissions_and_rejects(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.Dat
         axis=1,
     )
 
-    reject_cols = get_table_columns("rejects")
-    reject_pk_col, _ = get_pk_column_and_type("rejects")
+    reject_cols = get_table_columns("stg_rejects")
+    reject_pk_col, _ = get_pk_column_and_type("stg_rejects")
 
     reject_data_cols = [
         c for c in reject_cols if c not in (reject_pk_col, "missing_columns")
@@ -147,21 +147,22 @@ def transform(df: pd.DataFrame) -> dict[str, pd.DataFrame]:
 
     try:
         ###Builds Dataframe for Each Table Based On Schema###
-        people_df = build_dimension_df(df, "people")
+        stg_admissions_df = build_dimension_df(df, "stg_admissions")
+        people_df = build_dimension_df(df, "dim_people")
         hospitals_df = build_dimension_df(
             df,
-            "hospitals",
+            "dim_hospitals",
             logger_label="hospitals_df (no nulls)",
         )
         doctors_df = build_dimension_df(
             df,
-            "doctors",
+            "dim_doctors",
             extra_source_cols=["hospital"],
             logger_label="doctors_df (pre-hospital merge, no nulls)",
         )
 
-        hosp_pk_col, _ = get_pk_column_and_type("hospitals")
-        hosp_mapping = get_source_to_db_mapping("hospitals")
+        hosp_pk_col, _ = get_pk_column_and_type("dim_hospitals")
+        hosp_mapping = get_source_to_db_mapping("dim_hospitals")
         hosp_source_col = next(iter(hosp_mapping.keys()))
         hosp_name_col = hosp_mapping[hosp_source_col]
 
@@ -178,25 +179,25 @@ def transform(df: pd.DataFrame) -> dict[str, pd.DataFrame]:
         if hosp_source_col in doctors_df.columns:
             doctors_df = doctors_df.drop(columns=[hosp_source_col])
 
-        conditions_df = build_dimension_df(df, "conditions")
-        insurance_df = build_dimension_df(df, "insurance")
-        test_results_df = build_dimension_df(df, "test_results")
+        conditions_df = build_dimension_df(df, "dim_conditions")
+        insurance_df = build_dimension_df(df, "dim_insurance")
+        test_results_df = build_dimension_df(df, "dim_test_results")
 
         allowed_test_results = get_enum_values_from_check(
-            "test_results", "result_label"
+            "dim_test_results", "result_label"
         )
 
         test_results_df = test_results_df[
             test_results_df["result_label"].isin(allowed_test_results)
         ].reset_index(drop=True)
 
-        admission_types_df = build_dimension_df(df, "admission_types")
+        admission_types_df = build_dimension_df(df, "dim_admission_types")
 
 
         ###Merging###
-        df = merge_dimension(df, people_df, "people")
-        doctor_mapping = get_source_to_db_mapping("doctors")
-        hospital_mapping = get_source_to_db_mapping("hospitals")
+        df = merge_dimension(df, people_df, "dim_people")
+        doctor_mapping = get_source_to_db_mapping("dim_doctors")
+        hospital_mapping = get_source_to_db_mapping("dim_hospitals")
 
         doctor_name_col = doctor_mapping["doctor"]
         hospital_name_col = hospital_mapping[hosp_source_col]
@@ -204,15 +205,15 @@ def transform(df: pd.DataFrame) -> dict[str, pd.DataFrame]:
         df = merge_dimension(
             df,
             doctors_df,
-            "doctors",
+            "dim_doctors",
             left_on=["doctor", hosp_source_col],
             right_on=[doctor_name_col, hospital_name_col],
         )
 
-        df = merge_dimension(df, conditions_df, "conditions")
-        df = merge_dimension(df, insurance_df, "insurance")
-        df = merge_dimension(df, test_results_df, "test_results")
-        df = merge_dimension(df, admission_types_df, "admission_types")
+        df = merge_dimension(df, conditions_df, "dim_conditions")
+        df = merge_dimension(df, insurance_df, "dim_insurance")
+        df = merge_dimension(df, test_results_df, "dim_test_results")
+        df = merge_dimension(df, admission_types_df, "dim_admission_types")
 
         logger.info(
             "Finished merges; df is now %d rows x %d columns",
@@ -222,6 +223,7 @@ def transform(df: pd.DataFrame) -> dict[str, pd.DataFrame]:
 
         ###Building Admissions and Results DF's and Handling NA Columns in Rejects###
         admissions_df, rejects_df = build_admissions_and_rejects(df)
+
         rejects_df = rejects_df.astype("object").where(pd.notna(rejects_df), None)
 
 
@@ -234,6 +236,7 @@ def transform(df: pd.DataFrame) -> dict[str, pd.DataFrame]:
             "admission_types": admission_types_df,
             "test_results": test_results_df,
             "admissions": admissions_df,
+            "stg_admissions": stg_admissions_df,
             "rejects": rejects_df,
         }
 

@@ -208,6 +208,7 @@ def load(loaded_data,
     insurance_df = loaded_data["insurance"]
     test_results_df = loaded_data["test_results"]
     admission_types_df = loaded_data["admission_types"]
+    stg_admissions_df = loaded_data["stg_admissions"]
     admissions_df = loaded_data["admissions"]
     rejects_df = loaded_data["rejects"]
 
@@ -216,7 +217,7 @@ def load(loaded_data,
     logger.info("Starting load()")
     logger.info(
         "Row counts - people=%d, hospitals=%d, doctors=%d, conditions=%d, "
-        "insurance=%d, test_results=%d, admission_types=%d, admissions=%d, rejects=%d",
+        "insurance=%d, test_results=%d, admission_types=%d, stg_admissions=%d, admissions=%d, rejects=%d",
         len(people_df),
         len(hospitals_df),
         len(doctors_df),
@@ -224,6 +225,7 @@ def load(loaded_data,
         len(insurance_df),
         len(test_results_df),
         len(admission_types_df),
+        len(stg_admissions_df),
         len(admissions_df),
         len(rejects_df),
     )
@@ -247,15 +249,16 @@ def load(loaded_data,
             ###Truncating Rejects Table for New Rejects###
             logger.info("Truncating tables and resetting identities...")
             cur.execute("""
-                TRUNCATE rejects,
-                        admission_data,
-                        doctors,
-                        hospitals,
-                        conditions,
-                        insurance,
-                        admission_types,
-                        test_results,
-                        people
+                TRUNCATE stg_rejects,
+                        stg_admissions,
+                        fact_admission_data,
+                        dim_doctors,
+                        dim_hospitals,
+                        dim_conditions,
+                        dim_insurance,
+                        dim_admission_types,
+                        dim_test_results,
+                        dim_people
                 RESTART IDENTITY;
             """)
             conn.commit()
@@ -272,27 +275,29 @@ def load(loaded_data,
 
         ###Starting Table Insertion Logic###
         table_to_df = {
-            "people": people_df,
-            "hospitals": hospitals_df,
-            "doctors": doctors_df,
-            "conditions": conditions_df,
-            "insurance": insurance_df,
-            "test_results": test_results_df,
-            "admission_types": admission_types_df,
-            "admission_data": admissions_df,
-            "rejects": rejects_df,
+            "dim_people": people_df,
+            "dim_hospitals": hospitals_df,
+            "dim_doctors": doctors_df,
+            "dim_conditions": conditions_df,
+            "dim_insurance": insurance_df,
+            "dim_test_results": test_results_df,
+            "dim_admission_types": admission_types_df,
+            "stg_admissions": stg_admissions_df,
+            "fact_admission_data": admissions_df,
+            "stg_rejects": rejects_df,
         }
 
         insertion_order = [
-            "people",
-            "hospitals",
-            "doctors",
-            "conditions",
-            "insurance",
-            "test_results",
-            "admission_types",
-            "admission_data",
-            "rejects",
+            "dim_people",
+            "dim_hospitals",
+            "dim_doctors",
+            "dim_conditions",
+            "dim_insurance",
+            "dim_test_results",
+            "dim_admission_types",
+            "stg_admissions",
+            "fact_admission_data",
+            "stg_rejects",
         ]
 
         logger.info("Starting schema-driven insert/upsert phase...")

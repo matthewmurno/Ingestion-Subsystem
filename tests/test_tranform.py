@@ -49,6 +49,7 @@ def test_transform_builds_dimensions_and_valid_admissions():
         "admission_types",
         "test_results",
         "admissions",
+        "stg_admissions",
         "rejects",
     }
     assert set(result.keys()) == expected_keys
