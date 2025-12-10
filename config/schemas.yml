@@ -196,43 +196,57 @@ schemas:
         source: name
       age:
         type: int
+        not_null: true
         source: age
       gender:
         type: text
+        not_null: true
         source: gender
       blood_type:
         type: text
+        not_null: true
         source: blood_type
       medical_condition:
         type: text
+        not_null: true
         source: medical_condition
       date_of_admission:
         type: date
+        not_null: true
         source: date_of_admission
       doctor:
         type: text
+        not_null: true
         source: doctor
       hospital:
         type: text
+        not_null: true
         source: hospital
       insurance_provider:
         type: text
+        not_null: true
         source: insurance_provider
       billing_amount:
         type: numeric(12, 2)
+        not_null: true
         source: billing_amount
       room_number:
         type: int
+        not_null: true
         source: room_number
       admission_type:
         type: text
+        not_null: true
         source: admission_type
       discharge_date:
         type: date
+        not_null: true
         source: discharge_date
       medication:
         type: text
+        not_null: true
         source: medication
       test_results:
         type: text
+        not_null: true
         source: test_results
